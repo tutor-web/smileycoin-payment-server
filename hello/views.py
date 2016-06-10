@@ -20,7 +20,7 @@ def index(request):
 def generateAddress(request):
     subprocess.call('./smileycoind --server &', shell=True)
     time.sleep(0.05)
-    output = subprocess.check_output('./smileycoind getnewaddress', shell=True)
+    output = subprocess.check_output('./smileycoind getnewaddress', shell=True)[:-1]
     return HttpResponse('{\"address\":\"'+output+'\"}')
 
 def db(request):
