@@ -17,6 +17,8 @@ def index(request):
 
 
 def generateAddress(request):
+    subprocess.call('./smileycoind --server &', shell=True)
+    time.sleep(10)
     output = subprocess.check_output('./smileycoind getnewaddress', shell=True)
     return HttpResponse('{address:' +output+'}')
 
