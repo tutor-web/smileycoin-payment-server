@@ -5,6 +5,7 @@ from .models import Greeting
 
 import requests
 import subprocess
+import time
 
 # Create your views here.
 def index(request):
