@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import Greeting
 
 import requests
+import subprocess
 
 # Create your views here.
 def index(request):
@@ -16,7 +17,8 @@ def index(request):
 
 
 def generateAddress(request):
-    return HttpResponse('{address: here is where our address will go}')
+    output = subprocess.check_output('./smileycoind getnewaddress', shell=True)
+    return HttpResponse('{address:' +output+'}')
 
 def db(request):
 
