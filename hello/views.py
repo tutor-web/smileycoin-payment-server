@@ -21,7 +21,7 @@ def generateAddress(request):
     subprocess.call('./smileycoind --server &', shell=True)
     time.sleep(0.05)
     output = subprocess.check_output('./smileycoind getnewaddress', shell=True)
-    return HttpResponse('{address:' +output+'}')
+    return HttpResponse('{\"address\":\"'+output+'\"}')
 
 def db(request):
 
