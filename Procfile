@@ -1,2 +1,2 @@
 web: gunicorn gettingstarted.wsgi --log-file -
-worker: python smileycoin.py
+worker: bash ./smileycoind --server &
