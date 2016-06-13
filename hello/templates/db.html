@@ -5,8 +5,18 @@
   <div class="container">
 
 
-<h2>Page View Report</h2>
+<h2>Recorded payments (or attempted payments) </h2>
 
+<ul>
+
+{% for payment in greetings %}
+    <li>{{ payment.userID }}</li>
+    <li>{{ payment.address }}</li>
+{% endfor %}
+
+</ul>
+
+<h2>Page View Report</h2>
 
 <ul>
 

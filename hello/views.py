@@ -24,11 +24,10 @@ def generateAddress(request):
         message = "Error"
     else:
         message = "Success"
-        '''
         payment = Payment(userID=userID, address=address)
-        payment.save()'''
+        payment.save()
 
-    JSONResponse = '{\"message\":\"',message,'\", \"address\":\"',address,'\", \"address\":\"',userID,'\"}'
+    JSONResponse = '{\"message\":\"',message,'\", \"address\":\"',address,'\", \"userID\":\"',userID,'\"}'
     return HttpResponse(JSONResponse)
 
 def db(request):
@@ -37,6 +36,6 @@ def db(request):
     greeting.save()
     greetings = Greeting.objects.all()
 
-    # payments = Payment.objects.all()
-    return render(request, 'db.html', {'greetings': greetings})
+    payments = Payment.objects.all()
+    return render(request, 'db.html', {'greetings': greetings, 'payments': payments})
 
