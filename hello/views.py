@@ -22,7 +22,7 @@ def generateAddress(request):
         # pgrep for the smileycoin daemon to see if its
         # already running, if not, this issues a CalledProcessError
         subprocess.check_output('pgrep smileycoind', shell=True)
-    except CalledProcessError, e:
+    except subprocess.CalledProcessError, e:
         # Smileycoin is not already running!
         print "Starting smileycoind..."
         subprocess.call('./smileycoind --server &', shell=True)
@@ -35,7 +35,7 @@ def generateAddress(request):
             try:
                 output = subprocess.check_output('./smileycoind getnewaddress', shell=True)[:-1]
                 return HttpResponse('{\"address\":\"'+output+'\"}')
-            except CalledProcessError, e:
+            except subprocess.CalledProcessError, e:
                 print "Trying again after 50 ms, "+numTries+" left."
                 numTries = numTries-1
                 time.sleep(0.05)
