@@ -15,6 +15,7 @@ def index(request):
  
 # 
 def generateAddress(request):
+<<<<<<< HEAD
     sc = Smileycoin()
     address = sc.getAddress()
     userID = sc.getUserCode()
