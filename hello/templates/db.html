@@ -10,8 +10,7 @@
 <ul>
 
 {% for payment in payments %}
-    <li>{{ payment.userID }}</li>
-    <li>{{ payment.address }}</li>
+    <li>User with ID <i>{{ payment.userID }}</i> and address <b>{{ payment.address }}</b></li>
 {% endfor %}
 
 </ul>
