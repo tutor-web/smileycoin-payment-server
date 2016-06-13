@@ -21,7 +21,7 @@ class Smileycoin():
 	            try:
 	                output = subprocess.check_output('./smileycoind getnewaddress', shell=True)[:-1]
 	            except subprocess.CalledProcessError, e:
-	                print "Trying again after 50 ms, "+numTries+" left."
+	                print "Trying again after 50 ms, ", numTries, " left."
 	                numTries = numTries-1
 	                time.sleep(0.05)
 
