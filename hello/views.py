@@ -16,12 +16,31 @@ def index(request):
     #print r.text
     #return HttpResponse('<pre>' + r.text + '</pre>')
 
-
 def generateAddress(request):
-    subprocess.call('./smileycoind --server &', shell=True)
-    time.sleep(0.05)
-    output = subprocess.check_output('./smileycoind getnewaddress', shell=True)[:-1]
-    return HttpResponse('{\"address\":\"'+output+'\"}')
+    # Check if smileycoind is running and start it if it isnt
+    try:
+        # pgrep for the smileycoin daemon to see if its
+        # already running, if not, this issues a CalledProcessError
+        subprocess.check_output('pgrep smileycoind', shell=True)
+    except CalledProcessError, e:
+        # Smileycoin is not already running!
+        print "Starting smileycoind..."
+        subprocess.call('./smileycoind --server &', shell=True)
+    finally:
+        # After smileycoind has started, get 10 tries to generate an address
+        # We might need multiple tries because if smileycoind was not running, it
+        # might take a while to start up
+        numTries = 10
+        while(numTries >= 0)
+            try:
+                output = subprocess.check_output('./smileycoind getnewaddress', shell=True)[:-1]
+                 return HttpResponse('{\"address\":\"'+output+'\"}')
+            except CalledProcessError, e:
+                print "Trying again after 50 ms, "+numTries+" left."
+                numTries = numTries-1
+                time.sleep(0.05)
+        
+    return HttpResponse('{\"address\":\"We couldnt find you an address at this time\"')
 
 def db(request):
 
