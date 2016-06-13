@@ -37,4 +37,4 @@ class Smileycoin():
 	        return output
 
 	def getUserID(self):
-		return uuid.uuid4()
+		return str(uuid.uuid4())
