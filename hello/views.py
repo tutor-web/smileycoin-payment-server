@@ -32,10 +32,10 @@ def generateAddress(request):
 
 def db(request):
 
-    #greeting = Greeting()
-    #greeting.save()
-    #greetings = Greeting.objects.all()
+    greeting = Greeting()
+    greeting.save()
+    greetings = Greeting.objects.all()
 
-    payments = Payment.objects.all()
-    return render(request, 'db.html', {'payments': payments})
+    # payments = Payment.objects.all()
+    return render(request, 'db.html', {'greetings': greetings})
 
