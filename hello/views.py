@@ -27,7 +27,7 @@ def generateAddress(request):
         payment = Payment(userID=userID, address=address)
         payment.save()
 
-    JSONResponse = '{\"message\":\"'+message+'\", \"address\":\"'+address+'\", \"address\":\"'+userID+'\"}'
+    JSONResponse = '{\"message\":\"',message,'\", \"address\":\"',address,'\", \"address\":\"',userID,'\"}'
     return HttpResponse(JSONResponse)
 
 def db(request):
