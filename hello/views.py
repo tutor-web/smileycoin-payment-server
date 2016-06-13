@@ -31,15 +31,14 @@ def generateAddress(request):
         # We might need multiple tries because if smileycoind was not running, it
         # might take a while to start up
         numTries = 10
-        while(numTries >= 0)
+        while(numTries >= 0):
             try:
                 output = subprocess.check_output('./smileycoind getnewaddress', shell=True)[:-1]
-                 return HttpResponse('{\"address\":\"'+output+'\"}')
+                return HttpResponse('{\"address\":\"'+output+'\"}')
             except CalledProcessError, e:
                 print "Trying again after 50 ms, "+numTries+" left."
                 numTries = numTries-1
                 time.sleep(0.05)
-        
     return HttpResponse('{\"address\":\"We couldnt find you an address at this time\"')
 
 def db(request):
