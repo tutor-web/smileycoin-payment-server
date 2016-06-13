@@ -36,7 +36,7 @@ def generateAddress(request):
                 output = subprocess.check_output('./smileycoind getnewaddress', shell=True)[:-1]
                 return HttpResponse('{\"address\":\"'+output+'\"}')
             except subprocess.CalledProcessError, e:
-                print "Trying again after 50 ms, "+numTries+" left."
+                print "Trying again after 50 ms, ", numTries, " left."
                 numTries = numTries-1
                 time.sleep(0.05)
     return HttpResponse('{\"address\":\"We couldnt find you an address at this time\"')
