@@ -7,7 +7,7 @@ from .models import Payment
 import requests
 import subprocess
 import time
-import Smileycoin
+from smileycoin import Smileycoin
 
 # Create your views here.
 def index(request):
@@ -17,7 +17,7 @@ def index(request):
 def generateAddress(request):
     sc = Smileycoin()
     address = sc.getAddress()
-    userID = sc.getUserCode()
+    userID = sc.getUserID()
     message = ""
 
     if( address==0 ):

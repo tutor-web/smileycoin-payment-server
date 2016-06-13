@@ -4,7 +4,7 @@ class Smileycoin():
 
 	# Starts the daemon if it isn't already up.
 	# Runs the getnewaddress command on the smileycoin daemon.
-	def getAddress():
+	def getAddress(self):
 		# Check if smileycoind is running and start it if it isnt
 	    try:
 	        subprocess.check_output('pgrep smileycoind', shell=True)
@@ -26,5 +26,5 @@ class Smileycoin():
 
 	        return output
 
-	def getUserID():
+	def getUserID(self):
 		return uuid.uuid4()
