@@ -47,7 +47,7 @@ def postTX(request):
         return HttpResponse('You posted a get request')
 
 def getToken(request):
-    csrf.get_token()
+    csrf.get_token(request)
     return HttpResponse('Check your cookies')
 
 
