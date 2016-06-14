@@ -10,14 +10,10 @@ class Smileycoin():
         # Check if smileycoind is running and start it if it isnt
         try:
             print "pgrepping for smileycoin daemon"
-            print "At first, lets just see if we can actually run the notifytest: "
-            subprocess.call("./notifytest.sh", shell=True)
             subprocess.check_output('pgrep smileycoind', shell=True)
             print "seems the daemon is already running, continue ..."
         except subprocess.CalledProcessError, e:
             print "CalledProcessError occurred, starting smileycoind ..."
-            print "At first, lets just see if we can actually run the notifytest: "
-            subprocess.call("./notifytest.sh", shell=True)
             subprocess.call('./smileycoind --server -walletnotify=/app/notifytest.sh %s &', shell=True)
             print "Smileycoin daemon started"
         finally:
