@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import Greeting
-from .models import Payment
+from .models import PaymentRequest
 
 import requests
 import subprocess
@@ -25,8 +25,8 @@ def generateAddress(request):
         message = "Error"
     else:
         message = "Success"
-        payment = Payment(userID=userID, address=address)
-        payment.save()
+        paymentReq = PaymentRequest(userID=userID, address=address)
+        paymentReq.save()
 
     JSONResponse = '{\"message\":\"',message,'\", \"address\":\"',address,'\", \"userID\":\"',userID,'\"}'
     return HttpResponse(JSONResponse)
@@ -37,8 +37,8 @@ def db(request):
     greeting.save()
     greetings = Greeting.objects.all()
 
-    payments = Payment.objects.all()
-    return render(request, 'db.html', {'greetings': greetings, 'payments': payments})
+    paymentReqs = PaymentRequest.objects.all()
+    return render(request, 'db.html', {'greetings': greetings, 'paymentReqs': paymentReqs})
 
 def postTX(request):
     if request.method == 'POST':

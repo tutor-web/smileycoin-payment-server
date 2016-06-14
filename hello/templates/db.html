@@ -5,12 +5,12 @@
   <div class="container">
 
 
-<h2>Recorded payments (or attempted payments) </h2>
+<h2>Recorded payment requests </h2>
 
 <ul>
 
-{% for payment in payments %}
-    <li>User with ID <i>{{ payment.userID }}</i> and address <b>{{ payment.address }}</b></li>
+{% for paymentReq in paymentReqs %}
+    <li>User with ID <i>{{ paymentReq.userID }}</i> and address <b>{{ paymentReq.address }}</b></li>
 {% endfor %}
 
 </ul>
