@@ -14,7 +14,8 @@ class Smileycoin():
             print "seems the daemon is already running, continue ..."
         except subprocess.CalledProcessError, e:
             print "CalledProcessError occurred, starting smileycoind ..."
-            subprocess.call('./smileycoind --server -walletnotify &', shell=True)
+            # Confirmed to be the correct way to call daemon for wallet notify
+            subprocess.call('./smileycoind --server -walletnotify=./notifytest.sh', shell=True)
             print "Smileycoin daemon started"
         finally:
             # After smileycoind has started, get 10 tries to generate an address

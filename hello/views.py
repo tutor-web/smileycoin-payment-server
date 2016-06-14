@@ -39,3 +39,23 @@ def db(request):
     payments = Payment.objects.all()
     return render(request, 'db.html', {'greetings': greetings, 'payments': payments})
 
+def postTX(request):
+    if request.method == 'POST':
+        return HttpResponse('Raw data is %s' % request.body)   
+    if request.method == 'GET':
+        return HttpResponse('You posted a get request')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
