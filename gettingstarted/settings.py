@@ -143,7 +143,3 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-CSRF_TRUSTED_ORIGINS = (
-	'hurl.it'
-)
-

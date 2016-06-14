@@ -45,6 +45,10 @@ def postTX(request):
     if request.method == 'GET':
         return HttpResponse('You posted a get request')
 
+def getToken(request):
+    django.middleware.csrf.get_token()
+    return HttpResponse('Check your cookies')
+
 
 
 
