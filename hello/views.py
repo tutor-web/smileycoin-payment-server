@@ -8,6 +8,7 @@ import requests
 import subprocess
 import time
 from smileycoin import Smileycoin
+from django.middleware import csrf
 
 # Create your views here.
 def index(request):
@@ -46,7 +47,7 @@ def postTX(request):
         return HttpResponse('You posted a get request')
 
 def getToken(request):
-    django.middleware.csrf.get_token()
+    csrf.get_token()
     return HttpResponse('Check your cookies')
 
 
