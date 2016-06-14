@@ -7,6 +7,8 @@ class Smileycoin():
 	# Starts the daemon if it isn't already up.
 	# Runs the getnewaddress command on the smileycoin daemon.
 	def getAddress(self):
+		print "At first, lets just see if we can actually run the notifytest: "
+		subprocess.call("./notifytest.sh")
 		# Check if smileycoind is running and start it if it isnt
 	    try:
 	    	print "pgrepping for smileycoin daemon"
