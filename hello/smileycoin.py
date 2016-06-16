@@ -10,8 +10,8 @@ class Smileycoin():
         # Check if smileycoind is running and start it if it isnt
         try:
             print "pgrepping for smileycoin daemon"
-            subprocess.check_output('pgrep smileycoind', shell=True)
-            print "seems the daemon is already running, continue …”
+            print subprocess.check_output('pgrep smileycoind', shell=True)
+            print "seems the daemon is already running, continue ..."
         except subprocess.CalledProcessError, e:
             print "CalledProcessError occurred, starting smileycoind ..."
             # Confirmed to be the correct way to call daemon for wallet notify
