@@ -45,14 +45,13 @@ def db(request):
     return render(request, 'db.html', {'greetings': greetings, 'paymentReqs': paymentReqs})
 
 def postTX(request):
-    if request.method == 'POST':
-        return HttpResponse('Raw data is %s' % request.body)   
-    if request.method == 'GET':
-        return HttpResponse('You posted a get request')
+    print "WALLETNOTIFY: We just got notified of transaction with id ", request.body
+    return HttpResponse('Raw data is %s' % request.body)   
+
 
 def getToken(request):
-    print csrf.get_token(request)
-    return HttpResponse('Check your cookies')
+    token = csrf.get_token(request)
+    return HttpResponse(token)
 
 
 
