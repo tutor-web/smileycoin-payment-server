@@ -30,6 +30,8 @@ def generateAddress(request):
         paymentReq = PaymentRequest(userID=userID, address=address)
         paymentReq.save()
 
+    # Send csrf as a cookie with the request so the user can be authenticated.
+    csrf.get_token(request) 
     JSONResponse = '{\"message\":\"',message,'\", \"address\":\"',address,'\", \"userID\":\"',userID,'\"}'
     return HttpResponse(JSONResponse)
 
@@ -49,14 +51,8 @@ def postTX(request):
         return HttpResponse('You posted a get request')
 
 def getToken(request):
-    csrf.get_token(request)
+    print csrf.get_token(request)
     return HttpResponse('Check your cookies')
-
-
-
-
-
-
 
 
 
