@@ -12,8 +12,8 @@ from django.middleware import csrf
 
 # Create your views here.
 def index(request):
-    Greeting.objects.all().delete()
-    PaymentRequest.objects.all().delete()
+    # Greeting.objects.all().delete()
+    # PaymentRequest.objects.all().delete()
     return render(request, 'index.html')
  
 # 
