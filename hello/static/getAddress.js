@@ -40,7 +40,7 @@ var extractAddress = function(result) {
 
 // Generates a new url/uri for the given address with amount 500000 smly:
 var makeNewUrl = function(address) {
-     return  "smileycoin:"+address+"?amount=500000.0&label=airfare";
+     return  "smileycoin:"+address+"?amount=1.0&label=airfare";
 }
 
 // updates the payment button of the site with the new url
