@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "Notifying transaction..."
 tokenHeaders=$(curl -I https://smileyservice.herokuapp.com/getToken)
 token=$(grep -oP '(?<=csrftoken=).*?(?=;)' <<< "$tokenHeaders")
 echo "Got csrf token: $token"
