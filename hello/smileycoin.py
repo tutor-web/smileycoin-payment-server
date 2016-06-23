@@ -88,7 +88,7 @@ class Smileycoin():
                 address = jObj['details']['address']
                 return json.loads('{"address" :'+ address+', "confirmation" : '+str(amount >= expectedAmount)+', "message" : "Payment of "+str(amount)+" paid to address "+address}')
             else:
-                return json.loads('{"address": "something went wrong with your request", "confirmation" : "False"}')
+                return None
             
 
 

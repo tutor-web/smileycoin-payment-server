@@ -51,7 +51,8 @@ def postTX(request):
     # payment is a json string of the form {"address" : address, "confirmation" : true/false}
     payment = sc.getPaymentById(txId)
     # Update the database with true or false depending on whether this payment is confirmed
-    PaymentRequest.objects.get(address=payment['address'], confirmation=payment['confirmation'])
+    if payment is not None:
+        PaymentRequest.objects.get(address=payment['address']).update(confirmation=payment['confirmation'])
     
     return HttpResponse('Raw data is %s' % request.body)   
 
