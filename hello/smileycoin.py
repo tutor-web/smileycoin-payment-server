@@ -57,7 +57,7 @@ class Smileycoin():
             # might take a while to start up
             print "take 10 tries to get the transaction"
             numTries = 10
-            output = 0
+            txJSON = 0
             while(numTries >= 0):
                 try:
                     print "trying to get transaction information ..."
@@ -82,11 +82,14 @@ class Smileycoin():
 	    	#		amount
 	    	#		fee
             
-            txObj = json.loads(txJSON)
-            amount = jObj['amount']
-            address = jObj['details']['address']
-
-            return json.loads({"address" : address, "confirmation" : str(amount >= expectedAmount), "message" : "Payment of "+str(amount)+" paid to address "+address})
+            if( txJSON != 0 ): 
+                txObj = json.loads(txJSON)
+                amount = jObj['amount']
+                address = jObj['details']['address']
+                return json.loads({"address" : address, "confirmation" : str(amount >= expectedAmount), "message" : "Payment of "+str(amount)+" paid to address "+address})
+            else:
+                return json.loads({"address": "something went wrong with your request", "confirmation" : "False"})
+            
 
 
 
