@@ -1,6 +1,7 @@
 import uuid
 import subprocess
 import time
+import json
 
 class Smileycoin():
 
@@ -39,3 +40,76 @@ class Smileycoin():
 
     def getUserID(self):
         return str(uuid.uuid4())
+
+    def getPaymentById(self, txid):
+    	try:
+            print "pgrepping for smileycoin daemon"
+            print subprocess.check_output('pgrep smileycoind', shell=True)
+            print "seems the daemon is already running, continue ..."
+        except subprocess.CalledProcessError, e:
+            print "CalledProcessError occurred, starting smileycoind ..."
+            # Confirmed to be the correct way to call daemon for wallet notify
+            subprocess.call('./smileycoind --server', shell=True)
+            print "Smileycoin daemon started"
+        finally:
+            # After smileycoind has started, get 10 tries to generate an address
+            # We might need multiple tries because if smileycoind was not running, it
+            # might take a while to start up
+            print "take 10 tries to get the transaction"
+            numTries = 10
+            output = 0
+            while(numTries >= 0):
+                try:
+                    print "trying to get transaction information ..."
+                    txJSON = subprocess.check_output('./smileycoind gettransaction '+txid, shell=True)[:-1]
+                    break
+                except subprocess.CalledProcessError, e:
+                    print "gettransaction failed. Trying again after 50 ms, ", numTries, " left."
+                    numTries = numTries-1
+                    time.sleep(0.05)
+
+            print "While loop finished, parsing json ..."
+            # JSON will look like this:
+	    	#
+	    	# 	amount
+	    	# 	confirmation
+	    	# 	txid
+	    	# 	time
+	    	# 	details
+	    	#		account
+	    	#		address
+	    	#		category
+	    	#		amount
+	    	#		fee
+            
+            txObj = json.loads(txJSON)
+            amount = jObj['amount']
+            address = jObj['details']['address']
+
+            return json.loads({"address" : address, "confirmation" : str(amount >= expectedAmount), "message" : "Payment of "+str(amount)+" paid to address "+address})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

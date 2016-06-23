@@ -7,6 +7,7 @@ class Greeting(models.Model):
 class PaymentRequest(models.Model):
     userID = models.CharField(max_length=60)
     address = models.CharField(max_length=60)
+    confirmation = models.CharField(max_length=5) # lets keep this true or false
 
 class Transaction(models.Model):
     txID = models.CharField(max_length=60)

@@ -27,7 +27,7 @@ def generateAddress(request):
         message = "Error"
     else:
         message = "Success"
-        paymentReq = PaymentRequest(userID=userID, address=address)
+        paymentReq = PaymentRequest(userID=userID, address=address, confirmation="false")
         paymentReq.save()
 
     # Send csrf as a cookie with the request so the user can be authenticated.
@@ -46,6 +46,13 @@ def db(request):
 
 def postTX(request):
     print "WALLETNOTIFY: We just got notified of transaction with id ", request.body
+    txId = request.body
+    sc = Smileycoin()
+    # payment is a json string of the form {"address" : address, "confirmation" : true/false}
+    payment = sc.getPaymentById(txId)
+    # Update the database with true or false depending on whether this payment is confirmed
+    PaymentRequest.objects.get(address=payment['address'], confirmation=payment['confirmation'])
+    
     return HttpResponse('Raw data is %s' % request.body)   
 
 
