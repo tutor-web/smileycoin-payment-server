@@ -83,6 +83,8 @@ class Smileycoin():
 	    	#		fee
             
             if( txJSON != 0 ): 
+		print "THIS IS THE JSON"
+		print txJSON
                 txObj = json.loads(txJSON)
                 amount = txObj['amount']
                 address = txObj['details']['address']
