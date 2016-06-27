@@ -86,8 +86,8 @@ class Smileycoin():
 		print "THIS IS THE JSON"
 		print txJSON
                 txObj = json.loads(txJSON)
-                amount = txObj['amount']
-                address = txObj['details']['address']
+                amount = txObj["amount"]
+                address = txObj["details"][0]["address"]
                 return json.loads('{"address" :'+ address+', "confirmation" : '+str(amount >= expectedAmount)+', "message" : "Payment of "+str(amount)+" paid to address "+address}')
             else:
                 return None
