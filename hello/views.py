@@ -56,7 +56,7 @@ def postTX(request):
     if payment is not None:
         PaymentRequest.objects.get(address=payment['address']).update(confirmation=payment['confirmation'])
     
-    return HttpResponse('Raw data is %s' % res)   
+    return HttpResponse(str('Raw data is', res))   
 
 
 def getToken(request):
