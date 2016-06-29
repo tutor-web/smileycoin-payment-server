@@ -45,7 +45,9 @@ def db(request):
     return render(request, 'db.html', {'greetings': greetings, 'paymentReqs': paymentReqs})
 
 def postTX(request):
-    print "WALLETNOTIFY: We just got notified of transaction with id ", request.body
+    response = request.body
+    if(len(response) > 500) res = "WALLETNOTIFY ERROR: ", response[1:500]
+    else res = "WALLETNOTIFY: We just got notified of transaction with id ", response
     txId = request.body
     sc = Smileycoin()
     # payment is a json string of the form {"address" : address, "confirmation" : true/false}
@@ -54,7 +56,7 @@ def postTX(request):
     if payment is not None:
         PaymentRequest.objects.get(address=payment['address']).update(confirmation=payment['confirmation'])
     
-    return HttpResponse('Raw data is %s' % request.body)   
+    return HttpResponse('Raw data is %s' % res)   
 
 
 def getToken(request):
