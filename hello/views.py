@@ -46,8 +46,8 @@ def db(request):
 
 def postTX(request):
     response = request.body
-    if(len(response) > 500) res = "WALLETNOTIFY ERROR: ", response[1:500]
-    else res = "WALLETNOTIFY: We just got notified of transaction with id ", response
+    if(len(response) > 500): res = "WALLETNOTIFY ERROR: ", response[1:500]
+    else: res = "WALLETNOTIFY: We just got notified of transaction with id ", response
     txId = request.body
     sc = Smileycoin()
     # payment is a json string of the form {"address" : address, "confirmation" : true/false}
