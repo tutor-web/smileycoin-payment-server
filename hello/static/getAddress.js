@@ -1,7 +1,7 @@
 
 var getAddress = function(successCallback, errorCallback) {
 	$.ajax({
-		url:"http://smileyservice.herokuapp.com/generateAddress",
+		url:"http://127.0.0.1:5000/generateAddress",
 		async:true,
 		type:"GET",
 		success: function(result){
