@@ -30,8 +30,10 @@ class Smileycoin():
                     print "trying to get new address ..."
                     output = subprocess.check_output('./smileycoind getnewaddress airlineAccount', shell=True)
                     print "output before: ", output
+		    print "output length: ", len(output)
                     output = output[:-1]
-                    print "output after: ", output
+                    print "output after:  ", output
+		    print "output length: ", len(output)
                     break
                 except subprocess.CalledProcessError, e:
                     print "Getnewaddress failed. Trying again after 50 ms, ", numTries, " left."
