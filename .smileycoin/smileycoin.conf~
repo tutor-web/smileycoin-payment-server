@@ -1,0 +1,3 @@
+rpcuser=smileycoinrpc
+rpcpassword=7cQj2J8JWWfM7dh41TTDcjwMwhwtxgNGuNmvMrWPWDJj
+walletnotify=python manage.py shell < receiveTX.py
