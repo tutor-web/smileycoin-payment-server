@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "Notify transaction"
 tokenHeaders=$(curl -I http://127.0.0.1:5000/getToken)
 token=$(grep -oP '(?<=csrftoken=).*?(?=;)' <<< "$tokenHeaders")
 echo "Got csrf token: $token"
