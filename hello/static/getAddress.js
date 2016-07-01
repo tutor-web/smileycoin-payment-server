@@ -1,7 +1,7 @@
 
 var getAddress = function(successCallback, errorCallback) {
 	$.ajax({
-		url:"http://127.0.0.1:5000/generateAddress",
+		url:"http://localhost:5000/generateAddress",
 		async:true,
 		type:"GET",
 		success: function(result){
@@ -11,6 +11,7 @@ var getAddress = function(successCallback, errorCallback) {
 		},
 		error: function(xhr,ajaxOptions, thrownError){
 			console.log(xhr);
+			console.log(thrownError);
 		}
 	});
 }
