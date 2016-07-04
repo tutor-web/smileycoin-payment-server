@@ -13,11 +13,20 @@
              font-size: 12px;}
     p 		{font-family:sans;
         	 font-size:13px;}
+    #verifyBox{
+       font-weight: bold;
+       text-align: center;
+       line-height: 40px;
+       background-color: red;
+       width: 130px;
+       height: 40px;
+    }
 </style>
 <title>Flugfélag Íslands</title>
 <script type="text/javascript" src="/static/jquery.min.js"></script>
 <script type="text/javascript" src="/static/qrcode.js"></script>
 <script type="text/javascript" src="/static/getAddress.js"></script>
+<script type="text/javascript" src="/static/util.js"></script>
 </head>
 <body>
                     
@@ -36,6 +45,8 @@
             <select id="Booking_Payment_PaymentMethod" name="Booking.Payment.PaymentMethod" tabindex="11"><option value="UATP">Flugkort</option>
 <option value="CC">Grei&#240;slukort</option>
 <option value="Netgiro">Netgiro</option>
+
+<!-- ------------------ Smileycoin related stuff ----------------- -->
 <option value="Smileycoin">Smileycoin</option>
 </select>      
      <br/>       
@@ -49,6 +60,9 @@
 <script type="text/javascript">
 new QRCode(document.getElementById("qrcode"), "smileycoin:BGs1L33mgDz8mUAE5h3bgmuo7s9r5Et8ne?amount=500000.0&label=airfare");
 </script>
+
+<div id="verifyBox" style="display:none"> <span id="verifyText">UNVERIFIED</span> </div>
+<!-- ------------------ end of smlycointhings ----------------- -->
 
        <br/>     
             <div id="Payment-CreditCard">            
