@@ -20,19 +20,18 @@ def index(request):
 def generateAddress(request):
     sc = Smileycoin()
     address = sc.getAddress()
-    userID = sc.getUserID()
     message = ""
 
     if( address==0 ):
         message = "Error"
     else:
         message = "Success"
-        paymentReq = PaymentRequest(userID=userID, address=address, confirmation="false")
+        paymentReq = PaymentRequest(address=address, confirmation="false")
         paymentReq.save()
 
     # Send csrf as a cookie with the request so the user can be authenticated.
     csrf.get_token(request) 
-    JSONResponse = '{\"message\":\"',message,'\", \"address\":\"',address,'\", \"userID\":\"',userID,'\"}'
+    JSONResponse = '{\"message\":\"',message,'\", \"address\":\"',address,'\"}'
     return HttpResponse(JSONResponse)
 
 def db(request):

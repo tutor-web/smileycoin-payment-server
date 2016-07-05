@@ -5,11 +5,6 @@ class Greeting(models.Model):
     when = models.DateTimeField('date created', auto_now_add=True)
 
 class PaymentRequest(models.Model):
-    userID = models.CharField(max_length=60)
     address = models.CharField(max_length=60)
-    confirmation = models.CharField(max_length=5) # lets keep this true or false
-
-class Transaction(models.Model):
-    txID = models.CharField(max_length=60)
-    address2 = models.CharField(max_length=60)
-    amount = models.CharField(max_length=30)
+    amount = models.DecimalField()
+    confirmation = models.BooleanField()
