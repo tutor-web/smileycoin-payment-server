@@ -1,4 +1,6 @@
 // ------------------------------------ listeneres...
+var csrftoken;
+var address;
 $(function() {
 	$("#verifyPayment").click(verifyPayment);
 });
@@ -9,9 +11,14 @@ var getAddress = function(successCallback, errorCallback) {
 		url:"http://localhost:5000/generateAddress",
 		async:true,
 		type:"GET",
-		success: function(result){
+		xhrFields: {
+        	withCredentials: true
+    	},
+		success: function(result, xhr){
 			// Handle a successful response based on whether the server
 			// actually managed to get an address or not. 
+			csrftoken = getCookie('csrftoken');
+			console.log("Managed to get the token? "+ csrftoken)
 			handleResponse(result, successCallback, errorCallback);
 		},
 		error: function(xhr,ajaxOptions, thrownError){
@@ -21,11 +28,22 @@ var getAddress = function(successCallback, errorCallback) {
 	});
 }
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+    }
+    return "";
+} 
+
 var handleResponse = function(result, successCallback, errorCallback) {
 	if(jsonSuccess(result)) {
-		var newAddress = extractAddress(result);
-		console.log("this is the new address " + newAddress);
-		var URL = makeNewUrl(newAddress);
+		address = extractAddress(result);
+		console.log("this is the new address " + address);
+		var URL = makeNewUrl(address);
 		updatePaymentButton(URL);
 		updateQRCode(URL);
 		successCallback();
@@ -68,10 +86,19 @@ var verifyPayment = function(successCallback, errorCallback) {
 		url:"http://localhost:5000/verifyPayment",
 		async:true,
 		type:"POST",
+		data:address,
+		crossDomain: true,
+		headers: {
+        	"X-CSRFToken":csrftoken
+    	},
+		beforeSend: function(xhr) {
+		    xhr.setRequestHeader("Cookie", "csrftoken="+csrftoken);
+		},
 		success: function(result){
 			// Handle a successful response based on whether the server
 			// actually managed to get an address or not. 
-			handleResponse(result, successCallback, errorCallback);
+			console.log(result);
+			//handleResponse(result, successCallback, errorCallback);
 		},
 		error: function(xhr,ajaxOptions, thrownError){
 			console.log(xhr);

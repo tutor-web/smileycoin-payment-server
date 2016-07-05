@@ -26,7 +26,7 @@ def generateAddress(request):
         message = "Error"
     else:
         message = "Success"
-        paymentReq = PaymentRequest(address=address, confirmation="false")
+        paymentReq = PaymentRequest(address=address, amount=0.0, confirmation=False)
         paymentReq.save()
 
     # Send csrf as a cookie with the request so the user can be authenticated.
@@ -47,10 +47,10 @@ def postTX(request):
     txId = request.body
     sc = Smileycoin()
     # payment is a json string of the form {"address" : address, "confirmation" : true/false}
-    payment = json.loads(sc.getPaymentById(txId))
+    payment = sc.getPaymentById(txId)
     # Update the database with true or false depending on whether this payment is confirmed
     if payment is not None:
-         print PaymentRequest.objects.filter(address=payment['address']).update(confirmation=payment['confirmation'])
+         print PaymentRequest.objects.filter(address=payment['address']).update(amount = payment['amount'], confirmation=payment['confirmation'])
          print payment['confirmation']
     
     return HttpResponse(str('Raw data is %s' % request.body))   
@@ -61,9 +61,8 @@ def getToken(request):
     return HttpResponse(token)
 
 def verifyPayment(request):
-    txId = request.body
-    sc = Smileycoin()
-    payment = sc.getPaymentById(txId)
+    address = request.body
+    payment = PaymentRequest.objects.filter(address=address)
     if payment is not None:
         return HttpResponse(payment)
     else:
