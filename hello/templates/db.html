@@ -10,7 +10,7 @@
 <ul>
 
 {% for paymentReq in paymentReqs %}
-    <li>User with ID <i>{{ paymentReq.userID }}</i> and address <b>{{ paymentReq.address }}</b></li>
+    <li>Address <b>{{ paymentReq.address }}</b> with amount <b>{{paymentReq.amount}}</b>, confirmation status: <b>{{paymentReq.confirmation}}</b></li>
 {% endfor %}
 
 </ul>
