@@ -47,7 +47,7 @@ def postTX(request):
     txId = request.body
     sc = Smileycoin()
     # payment is a json string of the form {"address" : address, "confirmation" : true/false}
-    payment = sc.getPaymentById(txId)
+    payment = json.loads(sc.getPaymentById(txId))
     # Update the database with true or false depending on whether this payment is confirmed
     if payment is not None:
          print PaymentRequest.objects.filter(address=payment['address']).update(confirmation=payment['confirmation'])
@@ -60,8 +60,14 @@ def getToken(request):
     token = csrf.get_token(request)
     return HttpResponse(token)
 
-
-
+def verifyPayment(request):
+    txId = request.body
+    sc = Smileycoin()
+    payment = sc.getPaymentById(txId)
+    if payment is not None:
+        return HttpResponse(payment)
+    else:
+        return HttpResponse('{"Error: ": "?"}')
 
 
 

@@ -43,9 +43,6 @@ class Smileycoin():
             print "While loop finished, returning ..."
             return output
 
-    def getUserID(self):
-        return str(uuid.uuid4())
-
     def getPaymentById(self, txid):
     	try:
             print "pgrepping for smileycoin daemon"
@@ -96,7 +93,7 @@ class Smileycoin():
                 address = txObj["details"][0]["address"]
 		paymentJSON = '{"address" :"'+ address+'", "confirmation" : "'+str(amount >= expectedAmount)+'", "message" : "Payment of '+str(amount)+' paid to address '+address+'"}'
 		print "PAYMENT JSON: ", paymentJSON
-                return json.loads(paymentJSON)
+                return paymentJSON
             else:
                 return None
             
