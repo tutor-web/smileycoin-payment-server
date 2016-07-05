@@ -53,7 +53,7 @@ def postTX(request):
          print PaymentRequest.objects.filter(address=payment['address']).update(amount = payment['amount'], confirmation=payment['confirmation'])
          print payment['confirmation']
     
-    return HttpResponse(str('Raw data is %s' % request.body))   
+    return HttpResponse("TRANSACTION POSTED (unless some error occurred...) with address %s, amount %s and confirmation status %s", payment['address'], payment['amount'], payment['confirmation'])   
 
 
 def getToken(request):
