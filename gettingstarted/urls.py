@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'^generateAddress', hello.views.generateAddress, name='generateAddress'),
     url(r'^postTX', hello.views.postTX, name='postTX'),
     url(r'^getToken', hello.views.getToken, name='getToken'),
+    url(r'^verifyPayment', hello.views.verifyPayment, name='verifyPayment'),
     url(r'^admin/', include(admin.site.urls)),
 ]
