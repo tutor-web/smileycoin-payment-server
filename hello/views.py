@@ -48,9 +48,12 @@ def postTX(request):
     sc = Smileycoin()
     # payment is a json string of the form {"address" : address, "confirmation" : true/false}
     payment = sc.getPaymentById(txId)
+ 
+    # Current amount of this address (in case customer pays in several transactions
+    currAmount = PaymentRequest.objects.get(address=payment['address']).amount
     # Update the database with true or false depending on whether this payment is confirmed
     if payment is not None:
-         print PaymentRequest.objects.filter(address=payment['address']).update(amount = payment['amount'], confirmation=payment['confirmation'])
+         print PaymentRequest.objects.filter(address=payment['address']).update(amount = currAmount+payment['amount'], confirmation=payment['confirmation'])
          print payment['confirmation']
     
     return HttpResponse("TRANSACTION POSTED (unless some error occurred...) with address %s, amount %s and confirmation status %s", payment['address'], payment['amount'], payment['confirmation'])   

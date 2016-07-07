@@ -19,6 +19,14 @@ $(function() {
 	$("#verifyPayment").on('click', function() {
 		verifyPayment(onGetVerifySuccess, onGetVerifyFailure);
 	});
+
+/*	$( window ).resize(function() {
+		if($(".rowFlexContainer").width() > 512) {
+			$(".largeFlexItem").css("max-width", "256px");
+		} else {
+			$(".largeFlexItem").css("max-width", "1000px");
+		}
+	});*/
 });
 
 // ========================
@@ -31,14 +39,21 @@ onGetAddressSuccess = function() {
 }
 
 onGetAddressFailure = function() {
-	setMessage("We couldn't get a smileycoin address for you at this time. Please try again later.");
+	setMessage("Ekki tókst að sækja smileycoin reikning á þessari stundu. Vinsamlegast reynið aftur síðar	.");
 	showMessage();
 	//hideSmileyRelated();
 }
 
-onGetVerifySuccess = function(message) {
-	changeVerifyBox();
-	setMessage(message);
+onGetVerifySuccess = function(paidAmount, expectedAmount) {
+	console.log("Success callback ");
+	console.log("Paid amount is "+paidAmount);
+	console.log("Expected amount is "+expectedAmount);
+	msg = "Þú hefur greitt upphæð "+paidAmount+" SMLY.";		
+	if(paidAmount >= expectedAmount) {
+		msg += " Greiðsla tókst!."
+		changeVerifyBox(true);
+	} else msg += " Eftirstöður: -"+(expectedAmount-paidAmount)+" SMLY.";
+	setMessage(msg);
 	showMessage();
 }
 
@@ -72,17 +87,17 @@ hideMessage = function() {
 }
 
 setMessage = function(message) {
-	$("#message").innerHTML = message;
+	$("#message").html(message);
 }
 
-changeVerifyBox = function() {
+changeVerifyBox = function(verified) {
 	if(verified) {
 		$("#verifyBox").css("background-color", "#f2511d");
-		document.getElementById("verifyText").innerHTML = "UNVERIFIED";
+		document.getElementById("verifyText").innerHTML = "Greiðsla óstaðfest";
 		verified = false;
 	} else {
 		$("#verifyBox").css("background-color", "#47BD4E");
-		document.getElementById("verifyText").innerHTML = "VERIFIED";
+		document.getElementById("verifyText").innerHTML = "Greiðsla staðfest";
 		verified = true;
 	}
 }

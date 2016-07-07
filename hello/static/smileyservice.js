@@ -1,8 +1,10 @@
 // =======
 // Globals
 // =======
-var csrftoken;
-var customerAddress;
+
+// SessionInfo = {csrftoken: , customerAddress: , amount: }
+var sessionInfo = {"csrftoken": null, "customerAddress": null, "amount": null};
+sessionInfo.amount = 200; //200 SMLY, this needs to be updated to some realistic value.
 
 
 // =====================
@@ -19,8 +21,8 @@ var getAddress = function(successCallback, errorCallback) {
 		success: function(result, xhr){
 			// Handle a successful response based on whether the server
 			// actually managed to get an address or not. 
-			csrftoken = getCookie('csrftoken');
-			console.log("Managed to get the token? "+ csrftoken);
+			sessionInfo.csrftoken = getCookie('csrftoken');
+			console.log("Managed to get the token? "+ sessionInfo.csrftoken);
 			handleAddressResponse(result, successCallback, errorCallback);
 		},
 		error: function(xhr,ajaxOptions, thrownError){
@@ -46,7 +48,7 @@ var handleAddressResponse = function(result, successCallback, errorCallback) {
 		newAddress = extractFromJson(result, 'address');
 		console.log("this is the new address " + newAddress);
 		console.log("SETTING CUSTOMER ADDRESS");
-		customerAddress = newAddress;
+		sessionInfo.customerAddress = newAddress;
 		var URL = makeNewUrl(newAddress);
 		updatePaymentButton(URL);
 		updateQRCode(URL);
@@ -92,18 +94,18 @@ var updateQRCode = function(url) {
 // Verify Payment Functions
 // ========================
 var verifyPayment = function(successCallback, errorCallback) {
-	console.log("CALLING VERIFY PAYMENT! THIS IS THE ADDRESS WE HAVE "+customerAddress);
+	console.log("CALLING VERIFY PAYMENT! THIS IS THE ADDRESS WE HAVE "+sessionInfo.customerAddress);
 	$.ajax({
 		url:"/verifyPayment",
 		async:true,
 		type:"POST",
-		data:customerAddress,
+		data:sessionInfo.customerAddress,
 		crossDomain: true,
 		headers: {
-        	"X-CSRFToken":csrftoken
+        	"X-CSRFToken":sessionInfo.csrftoken
     	},
 		beforeSend: function(xhr) {
-		    xhr.setRequestHeader("Cookie", "csrftoken="+csrftoken);
+		    xhr.setRequestHeader("Cookie", "csrftoken="+sessionInfo.csrftoken);
 		},
 		success: function(result){
 			// Handle a successful response based on whether the server
@@ -119,11 +121,13 @@ var verifyPayment = function(successCallback, errorCallback) {
 }
 
 var handleVerifyResponse = function(result, successCallback, errorCallback) {
-	if(jsonSuccess(result)) {
+	//if(jsonSuccess(result)) {
+		console.log("Verifying....");
 		var amount = extractFromJson(result, 'amount');
-		successCallback("Amount of "+amount+" SMLY was received to the address.");
-	} else {
-		errorCallback("We couldn't verify the transaction at this time.");
-	}
+		console.log("This is the amount we got "+amount);
+		successCallback(amount, sessionInfo.amount);
+	//} else {
+	//	errorCallback("We couldn't verify the transaction at this time.");
+	//}
 }
 
