@@ -61,10 +61,13 @@ def getToken(request):
     return HttpResponse(token)
 
 def verifyPayment(request):
-    address = request.body
-    payment = PaymentRequest.objects.filter(address=address)
+    customerAddress = request.body
+    print "CUSTOMER ADDRESS IS ", customerAddress
+    payment = PaymentRequest.objects.get(address=customerAddress)
+    print "PAYMENT IS ", payment
     if payment is not None:
-        return HttpResponse(payment)
+	res = "Customer address was "+customerAddress+" and we received payment "+str(payment)
+        return HttpResponse('{"address": "'+payment.address+'", "amount": "'+str(payment.amount)+'" }')
     else:
         return HttpResponse('{"Error: ": "?"}')
 
