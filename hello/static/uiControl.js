@@ -27,7 +27,7 @@ setMessage = function(message) {
 }
 
 changeVerifyBox = function(verified) {
-	if(verified) {
+	if(!verified) {
 		$("#verifyBox").css("background-color", "#f2511d");
 		document.getElementById("verifyText").innerHTML = "Greiðsla óstaðfest";
 		verified = false;

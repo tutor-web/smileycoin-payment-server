@@ -26,7 +26,7 @@ def generateAddress(request):
         message = "Error"
     else:
         message = "Success"
-        paymentReq = PaymentRequest(address=address, amount=0.0, confirmation=False)
+        paymentReq = PaymentRequest(address=address, amount=0.0, confirmations=0)
         paymentReq.save()
 
     # Send csrf as a cookie with the request so the user can be authenticated.
@@ -50,13 +50,16 @@ def postTX(request):
     payment = sc.getPaymentById(txId)
  
     # Current amount of this address (in case customer pays in several transactions
-    currAmount = float(PaymentRequest.objects.get(address=payment['address']).amount)
+    existingRequest = PaymentRequest.objects.get(address=payment['address'])
+    if existingRequest is not None: currAmount = existingRequest.amount
+    else: currAmount = 0.0
+
     # Update the database with true or false depending on whether this payment is confirmed
     if payment is not None:
-         print PaymentRequest.objects.filter(address=payment['address']).update(amount = currAmount+payment['amount'], confirmation=payment['confirmation'])
-         print payment['confirmation']
+         print PaymentRequest.objects.filter(address=payment['address']).update(amount = float(currAmount)+float(payment['amount']), confirmations=payment['confirmations'])
+         print payment['confirmations']
     
-    return HttpResponse("TRANSACTION POSTED (unless some error occurred...) with address %s, amount %s and confirmation status %s", payment['address'], payment['amount'], payment['confirmation'])   
+    return HttpResponse("TRANSACTION POSTED (unless some error occurred...) with address %s, amount %s and confirmations %s", payment['address'], payment['amount'], payment['confirmations'])   
 
 
 def getToken(request):

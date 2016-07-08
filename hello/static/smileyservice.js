@@ -182,7 +182,7 @@ onGetVerifySuccess = function(paidAmount, expectedAmount) {
 	console.log("Expected amount is "+expectedAmount);
 	msg = "Þú hefur greitt upphæð "+paidAmount+" SMLY.";		
 	if(paidAmount >= expectedAmount) {
-		msg += " Greiðsla tókst!."
+		msg += " Greiðsla tókst!"
 		changeVerifyBox(true);
 	} else msg += " Eftirstöður: -"+(expectedAmount-paidAmount)+" SMLY.";
 	setMessage(msg);

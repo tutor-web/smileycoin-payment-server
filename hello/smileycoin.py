@@ -23,7 +23,7 @@ class Smileycoin():
             # We might need multiple tries because if smileycoind was not running, it
             # might take a while to start up
             print "take 10 tries to get the new address"
-            numTries = 10
+            numTries = 100
             output = 0
             while(numTries >= 0):
                 try:
@@ -74,7 +74,7 @@ class Smileycoin():
             # JSON will look like this:
 	    	#
 	    	# 	amount
-	    	# 	confirmation
+	    	# 	confirmations
 	    	# 	txid
 	    	# 	time
 	    	# 	details
@@ -89,9 +89,9 @@ class Smileycoin():
 		print txJSON
                 txObj = json.loads(txJSON)
                 amount = txObj["amount"]
-		expectedAmount = 1.0
+		confirmations = txObj["confirmations"]
                 address = txObj["details"][0]["address"]
-		paymentJSON = '{"address" :"'+ address+'", "amount" : "'+str(amount)+'", "confirmation" : "'+str(amount >= expectedAmount)+'", "message" : "Payment of '+str(amount)+' paid to address '+address+'"}'
+		paymentJSON = '{"address" :"'+ address+'", "amount" : "'+str(amount)+'", "confirmations" : "'+str(txObj["confirmations"])+'", "message" : "Payment of '+str(amount)+' paid to address '+address+'"}'
 		print "PAYMENT JSON: ", paymentJSON
                 return json.loads(paymentJSON)
             else:
