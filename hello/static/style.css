@@ -43,6 +43,7 @@ p	{
 
 .largeFlexItem {
 	justify-content: space-between;
+	margin-top: 20px;
 	width: 100%;
 	max-width: 256px;
 	height: 256px;
@@ -64,8 +65,19 @@ p	{
 	margin-top: 30px;
 	text-align: center;
 	line-height: 100px;
-	max-width: 560px;
+	max-width: 558px; /*2px smaller because of border*/
 	width: 100%;
 	background-color: #f2511d;
 	}
+
+/* For mobile */
+@media screen and (max-width: 600px) {
+  .largeFlexItem {
+	max-width: 1000px; // no max-width
+  }
+
+  #qrcode {
+      display: none !important;
+  }
+}
 

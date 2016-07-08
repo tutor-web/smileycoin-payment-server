@@ -50,7 +50,7 @@ def postTX(request):
     payment = sc.getPaymentById(txId)
  
     # Current amount of this address (in case customer pays in several transactions
-    currAmount = PaymentRequest.objects.get(address=payment['address']).amount
+    currAmount = float(PaymentRequest.objects.get(address=payment['address']).amount)
     # Update the database with true or false depending on whether this payment is confirmed
     if payment is not None:
          print PaymentRequest.objects.filter(address=payment['address']).update(amount = currAmount+payment['amount'], confirmation=payment['confirmation'])

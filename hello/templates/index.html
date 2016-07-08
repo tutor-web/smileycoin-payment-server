@@ -9,7 +9,6 @@
       <script type="text/javascript" src="/static/uiControl.js"></script>
       <script type="text/javascript" src="/static/smileyservice.js"></script>
       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-      <script type="text/javascript" src="/static/detectmobilebrowser.js"></script>
       <link rel="stylesheet" type="text/css" href="/static/style.css">
    </head>
    <body>
@@ -30,12 +29,12 @@
                </select>
                <br/>       
                <!-- SMILEYCOIN ADDITION -->
-               <p id="smileyamount" class="smlyInformation" style="display:none" > Upphæð: 500 000 SMLY </p>
+               <p id="smileyamount" class="smlyInformation" style="display:none" > Upphæð: <span id="smlyAmount"></span> SMLY </p>
 	       <div class="rowFlexContainer smlyInformation" id="paySMLY">
 			<div class="colFlexContainer largeFlexItem">
-				<input id="payWithSMLY" class="smlyInformation smallFlexItem" type="button" style="display:none" onclick="location.href='smileycoin:BGs1L33mgDz8mUAE5h3bgmuo7s9r5Et8ne?amount=500000.0&label=airfare';" value="Greiða með SMLY"/>
-				<button type="button" id="verifyPayment" class="smlyInformation smallFlexItem verify">Staðfesta greiðslu</button>
-			</div>
+				<input type="button" id="payWithSMLY"  class="smlyInformation smallFlexItem" type="button" style="display:none" onclick="location.href='smileycoin:BGs1L33mgDz8mUAE5h3bgmuo7s9r5Et8ne?amount=500000.0&label=airfare';" value="Greiða með SMLY"/>
+				<input type="button" id="verifyPayment" class="smlyInformation smallFlexItem verify" value="Staðfesta greiðslu"/>
+		</div>
                		<div id="qrcode" class="smlyInformation largeFlexItem" style="display:none"></div>
 	       </div>	
                <script type="text/javascript">

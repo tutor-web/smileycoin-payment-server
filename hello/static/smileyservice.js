@@ -4,7 +4,39 @@
 
 // SessionInfo = {csrftoken: , customerAddress: , amount: }
 var sessionInfo = {"csrftoken": null, "customerAddress": null, "amount": null};
-sessionInfo.amount = 200; //200 SMLY, this needs to be updated to some realistic value.
+
+
+// ====
+// Main
+// ====
+
+$(function() {
+	// First, get the amount to be paid.	
+	getAmount(onGetAmountSuccess, onGetAmountFailure);	
+
+	// onChange listener to dropdown menu so we can get smileycoin address
+	$('#Booking_Payment_PaymentMethod').on('change', function(){
+			if (this.value=="Smileycoin"){
+				// Hide the card related stuff and then get address.
+				// Get address function takes two callbacks to handle
+				// successfully getting the address and any errors that might come up.			
+				getAddress(onGetAddressSuccess, onGetAddressFailure);			
+			}
+			else {
+				showCardHideSmly();
+			}
+	}).trigger('change');
+
+	// Click event listener to verify payment button
+	$("#verifyPayment").on('click', function() {
+		verifyPayment(onGetVerifySuccess, onGetVerifyFailure);
+	});
+});
+
+
+// ----------------------------------------------------------------------------------
+// 									AJAX REQUESTS
+// ----------------------------------------------------------------------------------
 
 
 // =====================
@@ -58,6 +90,18 @@ var handleAddressResponse = function(result, successCallback, errorCallback) {
 	}
 }
 
+var onGetAddressSuccess = function() {
+	hideMessage();
+	hideCardShowSmly()
+}
+
+var onGetAddressFailure = function() {
+	setMessage("Ekki tókst að sækja smileycoin reikning á þessari stundu. Vinsamlegast reynið aftur síðar	.");
+	showMessage();
+	//hideSmileyRelated();
+}
+
+
 var jsonSuccess = function(result) {
 	return (($.parseJSON(result)).message === "Success")
 }
@@ -73,14 +117,14 @@ var extractFromJson = function(result, key) {
 }
 
 
-// Generates a new url/uri for the given address with amount 500000 smly:
+// Generates a new url/uri for the given address with sessionInfo.amount smly:
 var makeNewUrl = function(address) {
-     return  "smileycoin:"+address+"?amount=1.0&label=airfare";
+     return  "smileycoin:"+address+"?amount="+sessionInfo.amount+"&label=airfare";
 }
 
 // updates the payment button of the site with the new url
 var updatePaymentButton = function(url) {
-	$('#payWithSMLYURL').attr("href", url);
+	$('#payWithSMLY').attr("onclick", "location.href='"+url+"';");
 }
 
 // updates the QR code of the site with the new url
@@ -130,4 +174,74 @@ var handleVerifyResponse = function(result, successCallback, errorCallback) {
 	//	errorCallback("We couldn't verify the transaction at this time.");
 	//}
 }
+
+
+onGetVerifySuccess = function(paidAmount, expectedAmount) {
+	console.log("Success callback ");
+	console.log("Paid amount is "+paidAmount);
+	console.log("Expected amount is "+expectedAmount);
+	msg = "Þú hefur greitt upphæð "+paidAmount+" SMLY.";		
+	if(paidAmount >= expectedAmount) {
+		msg += " Greiðsla tókst!."
+		changeVerifyBox(true);
+	} else msg += " Eftirstöður: -"+(expectedAmount-paidAmount)+" SMLY.";
+	setMessage(msg);
+	showMessage();
+}
+
+onGetVerifyFailure = function() {
+	setMessage(message);
+	showMessage();
+}
+
+
+// ====================
+// Get Amount Functions
+// --------------------
+// For now we will use
+// a fixed amount that
+// can later be retrieved
+// from the website.
+// ====================
+
+
+var getAmount = function(successCallback, errorCallback) {
+	handleAmountResponse(20, successCallback, errorCallback); //20 SMLY because testing
+}
+
+var handleAmountResponse = function(result, successCallback, errorCallback) {
+	successCallback(result);
+}
+
+var onGetAmountSuccess = function(amount) {
+	sessionInfo.amount = amount;
+	$("#smlyAmount").html(amount);
+}
+
+var onGetAmountFailure = function() {
+	setMessage("Failed to get amount");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
