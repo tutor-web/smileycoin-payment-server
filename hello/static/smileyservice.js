@@ -124,14 +124,14 @@ var makeNewUrl = function(address) {
 
 // updates the payment button of the site with the new url
 var updatePaymentButton = function(url) {
-	$('#payWithSMLY').click(function() {
+	/*$('#payWithSMLY').click(function() {
 		try {
 			window.location.href = url;
 		} catch(err) {
 			window.location.href = "https://play.google.com/store/apps/details?id=hashengineering.smileycoin.wallet&hl=en";
 		}
-	});
-	//$('#payWithSMLY').attr("onclick", "location.href='"+url+"';");
+	});*/
+	$('#payWithSMLY').attr("onclick", "location.href='"+url+"';");
 }
 
 // updates the QR code of the site with the new url
