@@ -124,7 +124,14 @@ var makeNewUrl = function(address) {
 
 // updates the payment button of the site with the new url
 var updatePaymentButton = function(url) {
-	$('#payWithSMLY').attr("onclick", "location.href='"+url+"';");
+	$('#payWithSMLY').click(function() {
+		try {
+			window.location.href = url;
+		} catch(err) {
+			window.location.href = "https://play.google.com/store/apps/details?id=hashengineering.smileycoin.wallet&hl=en";
+		}
+	});
+	//$('#payWithSMLY').attr("onclick", "location.href='"+url+"';");
 }
 
 // updates the QR code of the site with the new url
@@ -184,7 +191,7 @@ onGetVerifySuccess = function(paidAmount, expectedAmount) {
 	if(paidAmount >= expectedAmount) {
 		msg += " Greiðsla tókst!"
 		changeVerifyBox(true);
-	} else msg += " Eftirstöður: -"+(expectedAmount-paidAmount)+" SMLY.";
+	} else msg += " Eftirstöðvar: -"+(expectedAmount-paidAmount)+" SMLY.";
 	setMessage(msg);
 	showMessage();
 }
@@ -206,7 +213,7 @@ onGetVerifyFailure = function() {
 
 
 var getAmount = function(successCallback, errorCallback) {
-	handleAmountResponse(20, successCallback, errorCallback); //20 SMLY because testing
+	handleAmountResponse(200, successCallback, errorCallback); //20 SMLY because testing
 }
 
 var handleAmountResponse = function(result, successCallback, errorCallback) {

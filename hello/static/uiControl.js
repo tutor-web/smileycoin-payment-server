@@ -6,10 +6,12 @@ hideCardShowSmly = function() {
 	$(".cardInformation").hide("fast");
 	$(".asterisk").hide();
 	$(".smlyInformation").fadeIn("fast");
+	$("#paragraph").hide();
 }
 
 showCardHideSmly = function() {
 	$(".smlyInformation").hide();
+	$("#paragraph").fadeIn("fast");
 	$(".cardInformation").fadeIn("fast");
 	$(".asterisk").fadeIn("fast");
 }
