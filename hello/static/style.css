@@ -1,83 +1,445 @@
-body  	{background: #EDEDED;}
+/* z-index order:
+* header: 5
+* nav: 4
+* aside: 3
+* main: 2
+*
+*
+*/
 
-h4    	{
-	color:#E4AE1C;
-	font-family:arial;
-	}
+* { margin: 0; padding: 0; font-family: 'Lora', serif; color: #333;}
 
-label   {
-	font-weight:bold;
-	font-family:arial;
-	color:#525250;
-	font-size: 12px;
-	}
 
-p	{
-	font-family:sans;
-	font-size:13px;
-	}
-
-#container {
-    max-width: 1200px;
-    min-width: 320px;
-    width: 100%;
-    margin-left: 10px;
+html { 
+    height:100%;
+    min-height: 870px;
+}
+body { 
+    height: 100%;
+    min-height:100%;
 }
 
-.rowFlexContainer {
-	width: 100%;
-	max-width: 560px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-flow: row wrap;
+body {
+  width: 100%;
+  background-color: #fffffa;
 }
 
-.colFlexContainer {
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-flow: column wrap;
+header {
+  -moz-box-shadow:    0px 2px 3px 1px #656565;
+  -webkit-box-shadow: 0px 2px 3px 1px #656565;
+  box-shadow:         0px 2px 3px 1px #656565;
+  background-color: #fffffa;
+  position: relative;
+  z-index: 5; /*highest order*/
 }
 
-.largeFlexItem {
-	justify-content: space-between;
-	margin-top: 20px;
-	width: 100%;
-	max-width: 256px;
-	height: 256px;
-	overflow: hidden;	
+  header nav {
+    display: flex; /*Not sure we want nav? change to flex*/
+    background-color: #1a1a1a;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: stretch;
+    justify-content: center;
+    flex-flow: row wrap;
+    position: relative;
+    z-index: 4;
+  }
+
+    nav .activeTab {
+      -moz-box-shadow:    0px -20px 0px 0px green;
+      -webkit-box-shadow: 0px -20px 0px 0px green;
+      box-shadow:         0px -20px 0px 0px green;
+    }
+
+    .flexNavBtns {
+      display: flex;
+      flex-flow: row wrap;
+      align-content: center;
+      justify-content: space-around;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    a:link {
+      font-weight: 600;
+      text-decoration: none;
+      color: #333;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    a:visited {
+        color: #333;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #333;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: #333;
+        text-decoration: none;
+    }
+
+  header img {
+    display: block;
+    max-height: 88%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.container { 
+  overflow: auto; /*keep this instead of the height attribute so it expands with content*/
+  min-height: 85%; /*in case content doesn't fill screen*/
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-flow: row wrap;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.smallFlexItem {
-	justify-content: space-between;
-	width: 100%;
-	height: 110px;
-	overflow: hidden;
+  .container main {
+    position: relative;
+    z-index: 2;
+    width: 70%;
+    align-items: center;
+  }
+
+    main ul {
+      width: 100%;
+      list-style: none;
+      display: flex;
+      flex-flow: column wrap;
+      align-items: left;
+      justify-content: space-around;
+    }
+
+    main li {
+      display: block;
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-flow: column wrap;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    main form{
+       margin-top: 20px;
+       width: 85%;
+    }
+
+    #priceLabel {
+      margin-top: 60px;
+      font-size: 3em;
+    }
+
+    #totPriceLabel {
+      margin-bottom: 60px;
+      font-size: 3em;
+    }
+
+    main form li {
+      width: 100%;
+      align-content: center;
+    }
+
+
+    .leftFlex {
+      align-items: flex-start;
+    }
+
+    .centerFlex {
+      align-items: center;
+    }
+
+    .rightFlex {
+      align-items: flex-end;
+    }
+
+    main form label, input {
+      font-size: 1.1em;
+      vertical-align: center;
+      align: middle;
+    }
+
+    main form label {
+      font-style: italic;
+      line-height: 2;
+      font-size: 1.2em;
+    }
+
+    main form input {
+      height: 1.5em;
+      color: #666;
+    }
+
+    /*main form p {
+      font-size: 0.65em;
+    }*/
+
+    main form .largeLiBox {
+       position: relative;
+       width: 100%;
+       height: 100px;
+       border: 1px solid #ccc;
+       border-radius: 5px;
+       background-color: #f4f4f4;
+       text-align: center;
+       text-shadow: 2px 2px #ccc;
+       font-size: 3.5em;
+       margin-top: 10px;
+       margin-bottom: 10px;
+    }
+
+    main form .largeLiBox span {
+      width: 100%;
+    }
+
+    main form .largeLiBox p {
+      display: block;
+      float: left;
+    }
+
+    main form #productDescr {
+      height: 100%;
+    }
+
+    main form .smallLiBox {
+       width: 10%;
+    }
+
+    main form #address {
+      width: 362px;
+    }
+
+    main form .productName {
+      font-size: 0.45em;
+    }
+
+    main .paymentInterface {
+      visibility: hidden;
+    }
+
+    .inlineFlex {
+       display: inline-flex;
+       flex-flow: row wrap;
+       align-items: center;
+       justify-content: space-between;
+    }
+
+    .columnFlex {
+      display: flex;
+      flex-flow: column wrap;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .emptySpace {
+      padding-top: 200px;
+    }
+
+    .rowFlex {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+    }
+
+
+    main #smlyReward {
+      color: #333;
+      margin-top: 40px;
+      margin-bottom: 10px;
+      
+    }
+
+      main #smlyReward h2 {
+         font-size: 1.2em;
+
+      } 
+
+      main #smlyReward p {
+        font-size 1.1em: ;
+      }
+
+    main #smlyInfo{
+      font-size: 0.8em;
+      color: #333;
+      display: inline-block;
+      width: 85%;
+    } 
+
+    main #smlyInfo a {
+      color: #333;
+    }
+
+    #fundBtn {
+      width: 100%;
+      font-weight: 600;
+      height: 90px;
+      background-color: #1a1a1a;
+      border: none;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      color: #fffffa;
+      -moz-box-shadow:    inset -2px -2px 1px 1px #0d0d0d;
+      -webkit-box-shadow: inset -2px -2px 1px 1px #0d0d0d;
+      box-shadow:         inset -2px -2px 1px 1px #0d0d0d;
+    }
+
+    #fundBtn:active {
+        background-color:#333333;
+        -moz-box-shadow:    inset -2px -2px 1px 1px #4d4d4d;
+        -webkit-box-shadow: inset -2px -2px 1px 1px #4d4d4d;
+        box-shadow:         inset -2px -2px 1px 1px #4d4d4d;
+    }
+
+
+
+
+  .container aside {
+    position: relative;
+    z-index: 3;
+    -moz-box-shadow:    -2px 0px 3px 1px #ccc;
+    -webkit-box-shadow: -2px 0px 3px 1px #ccc;
+    box-shadow:         -2px 0px 3px 1px #ccc;
+    width: 30%;
+    background-color: #0F63B3;
+    color: #fffffa;
+  }
+
+  .container aside article {
+   margin: 55px;
+  }
+
+  .container aside article h2 {
+    color: #fffffa;
+  }
+
+  .container aside article p{
+   font-size: 0.9em;
+   color: #fffffa;
+   overflow: hidden;
+  }
+
+
+footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  z-index: 6;
+  background-color: #1a1a1a;
+  border-top: 1px solid #fffffa;
+  text-align: center;
+  line-height: 1.7;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: center;
 }
 
-#verifyBox {
-	border: 2px solid #ec8c47;
-	border-radius: 12px;
-	font-weight: bold;
-	color: #fffffa;
-	margin-top: 30px;
-	text-align: center;
-	line-height: 100px;
-	max-width: 558px; /*2px smaller because of border*/
-	width: 100%;
-	background-color: #f2511d;
-	}
+footer p, h3 {
+  color: #fffffa;
+  font-size: 0.9em;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+footer a {
+  color: #fffffa;
+  font-size: 0.9em;
+  text-decoration: underline;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.walletSite a {
+  color: #333;
+}
+
+
+.largeArticle {
+  padding: 50px;
+}
+
+
+.largeArticle h1 {
+  margin-left: 20px;
+  font-size: 2em;
+  margin-bottom: 30px;
+}
+
+
+.largeArticle p{
+  margin: 20px;
+  font-size: 1.2em;
+  font-weight: 400;
+}
 
 /* For mobile */
-@media screen and (max-width: 600px) {
-  .largeFlexItem {
-	max-width: 1000px; // no max-width
+@media screen and (max-width: 900px) {
+
+  header nav {
+    display: flex; /*Not sure we want nav? change to flex*/
+    align-items: center;
+    justify-content: center;
+    flex-flow: row wrap;
   }
 
-  #qrcode {
-      display: none !important;
+  .container { 
+    flex-flow: column-reverse wrap;
+    align-items: center;
+    justify-content: center;
   }
-}
 
+  .container main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .container main form {
+    display: flex;
+  }
+
+  main form li h1 {
+    margin-top: 30px;
+    font-size: 2.4em;
+  }
+
+  .smallScreenFlex {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+    .leftFlex {
+      align-items: center;
+    }
+
+    .rightFlex {
+      align-items: center;
+    }
+
+  .container aside {
+    width: 100%;
+  }
+
+  main form #address {
+      width: 85%;
+  }
+
+  #fundBtn {
+    width: 362px;
+  }
+
+/* For mobile */
+@media screen and (max-width: 502px) {
+  header {
+    height: unset;
+  }
