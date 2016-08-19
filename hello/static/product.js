@@ -2,23 +2,37 @@
 // GLOBALS
 // =======
 var csrfToken = null;
-var price = 50000;
+var sessionInfo = {"csrfToken": "", "address" : "", "amount" : 0};
+var price = 10;
 // so we can update the value
 $(function() {
-
-	csrfToken = (document.cookie).split("=")[1];
+	
+	sessionInfo.csrfToken = (document.cookie).split("=")[1];
 	console.log("This is the cookie we got "+csrfToken);
 	console.log("You should call update now");
 	updateAmounts();
 	console.log("Done updating");
 
+	$("#verifyPayment").prop("disabled", false);
+	$("#fundBtn").prop("disabled", false);
+	$("#verifyPayment").removeClass("disabled");
+	$("#fundBtn").removeClass("disabled");
+
 	$("#amount").change(function() {
 		updateAmounts();
 	});
 
-	$("#noItems").change(function() {
+	$("#noItemsInput").change(function() {
 		updateAmounts();
 	});
+
+	// Click event listener to verify payment button
+	$("#verifyPayment").on('click', function() {
+		$(this).prop("disabled", true);
+		$(this).addClass("disabled");
+		verifyPayment(onGetVerifySuccess, onGetVerifyFailure);
+	});
+
 });
 
 // Grabs the data from the form fields, updates the UI accordingly
@@ -33,6 +47,7 @@ function updateAmounts() {
 	//var current = getCurrentData();
 	//updateUI(current);
 	//updateDalpayBtn(current);
+	$("#noItemsBox").html($("#noItemsInput").val());
 }
 
 // Submits a request to the server to purchase the
@@ -43,6 +58,10 @@ function submitPurchaseRequest() {
 	console.log("We need to make sure were actually sending data");
 	console.log("Here is the cartForm data");
 	console.log($('#cartForm'));
+
+	$("#fundBtn").prop("disabled", true);
+	$("#fundBtn").addClass("disabled");
+	
 	$.ajax({
 		url:"checkout.html",
 		async:true,
@@ -50,10 +69,10 @@ function submitPurchaseRequest() {
 		data:$('#cartForm').serialize(),
 		crossDomain: true,
 		headers: {
-        	"X-CSRFToken":csrfToken
+        	"X-CSRFToken":sessionInfo.csrfToken
     	},
 		beforeSend: function(xhr) {
-		    xhr.setRequestHeader("Cookie", "csrftoken="+csrfToken);
+		    xhr.setRequestHeader("Cookie", "csrftoken="+sessionInfo.csrfToken);
 		},
 		success: function(result){
 			// Handle a successful response based on whether the server
@@ -73,15 +92,17 @@ function submitPurchaseRequest() {
 function handleResponse(result, successCallback, errorCallback) {
 	if(jsonSuccess(result)) {
 		newAddress = extractFromJson(result, 'address');
-		console.log("this is the new address " + newAddress);
-		console.log("SETTING CUSTOMER ADDRESS");
-		sessionInfo.customerAddress = newAddress;
-		var URL = makeNewUrl(newAddress);
+		newAmount = extractFromJson(result, 'amount');
+		sessionInfo.amount = newAmount;
+		sessionInfo.address = newAddress;
+
+
+		var URL = makeNewUrl();
 		updatePaymentButton(URL);
 		updateQRCode(URL);
 		successCallback();
 	} else {
-		errorCallback();
+		errorCallback(result);
 	}
 }
 
@@ -92,9 +113,48 @@ var jsonSuccess = function(result) {
 function enablePayment() {
 	freezePurchase();
 	configAndShowPayment();
+	fixFooter();
+}
+
+function fixFooter() {
+       
+	var footerHeight = 0,
+           footerTop = 0,
+           $footer = $("#footer");
+           
+       positionFooter();
+       
+       function positionFooter() {
+       
+                footerHeight = $footer.height();
+                footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
+                heightDifference = $("body").height() - $('.container').height()-$("header").height()-$("footer").height();
+       
+               if ( ($(document.body).height()+footerHeight) < $(window).height()) {
+                   console.log("IS THIS HAPPENING?");
+                   $footer.css({
+                        position: "absolute"
+                   }).animate({
+                        top: footerTop
+                   })
+               } else {
+                   console.log("OR THIS? Height difference "+heightDifference);
+                   $footer.css({
+                        position: "relative",
+                        top: heightDifference
+                   })
+               }
+               
+       }
+
+       $(window)
+               .scroll(positionFooter)
+               .resize(positionFooter)
+               
 }
 
 function freezePurchase() {
+	$("#cartForm").removeClass("activePayment").addClass("fixedPayment");
 	return;
 }
 
@@ -102,7 +162,11 @@ function configAndShowPayment() {
 	$(".paymentInterface").fadeIn("fast");
 }
 
-function reportError() {
+function reportError(request) {
+	console.log("CALLING ERROR")
+	var errorMsg = extractFromJson(request, "message");
+	setMessage(errorMsg);
+	showMessage();
 	return;
 }
 
@@ -113,8 +177,8 @@ var extractFromJson = function(result, key) {
 
 
 // Generates a new url/uri for the given address with sessionInfo.amount smly:
-var makeNewUrl = function(address) {
-     return  "smileycoin:"+address+"?amount="+sessionInfo.amount+"&label=airfare";
+var makeNewUrl = function() {
+     return  "smileycoin:"+sessionInfo.address+"?amount="+sessionInfo.amount+"&label=airfare";
 }
 
 
@@ -143,7 +207,7 @@ var handleAddressResponse = function(result, successCallback, errorCallback) {
 		newAddress = extractFromJson(result, 'address');
 		console.log("this is the new address " + newAddress);
 		console.log("SETTING CUSTOMER ADDRESS");
-		sessionInfo.customerAddress = newAddress;
+		sessionInfo.address = newAddress;
 		var URL = makeNewUrl(newAddress);
 		updatePaymentButton(URL);
 		updateQRCode(URL);
@@ -155,8 +219,76 @@ var handleAddressResponse = function(result, successCallback, errorCallback) {
 
 
 
+// ========================
+// Verify Payment Functions
+// ========================
+var verifyPayment = function(successCallback, errorCallback) {
+	console.log("CALLING VERIFY PAYMENT! THIS IS THE ADDRESS WE HAVE "+sessionInfo.address);
+	$.ajax({
+		url:"/verifyPayment",
+		async:true,
+		type:"POST",
+		data:sessionInfo.address,
+		crossDomain: true,
+		headers: {
+        	"X-CSRFToken":sessionInfo.csrfToken
+    	},
+		beforeSend: function(xhr) {
+		    xhr.setRequestHeader("Cookie", "csrftoken="+sessionInfo.csrfToken);
+		},
+		success: function(result){
+			// Handle a successful response based on whether the server
+			// actually managed to get an address or not. 
+			successCallback(result);
+		},
+		error: function(xhr,ajaxOptions, thrownError){
+			errorCallback(result);
+			console.log(xhr);
+			console.log(thrownError);
+		}
+	});
+}
 
 
+onGetVerifySuccess = function(result) {
+	var paymentStatus = extractFromJson(result, "status");
+	var paidAmount = extractFromJson(result, 'amount');
+	if(paymentStatus === "PAID") {
+		console.log("PAID IS HAPPENING");
+		changeVerifyBox(true);
+		deliverProduct(result);
+	} 
+	else {
+		console.log("UNPAID IS HAPPENING");
+		setMessage("Þú hefur greitt upphæð "+paidAmount+" SMLY. Eftirstöðvar: -"+(sessionInfo.amount-paidAmount)+" SMLY.");
+		showMessage();
+		$("#verifyPayment").prop("disabled", false);
+		$("#verifyPayment").removeClass("disabled");
+	}
+}
+
+onGetVerifyFailure = function(result) {
+	setMessage(message);
+	showMessage();
+	$("#verifyPayment").prop("disabled", false);
+	$("#verifyPayment").removeClass("disabled");
+}
+
+deliverProduct = function(result) {
+	var injectedHTML = 'Greiðsla samþykkt. <ul class="product">';
+
+	couponJSON = extractFromJson(result, "coupon");
+	for(var key in couponJSON) {
+		couponName = couponJSON[key].product;
+		couponCode = couponJSON[key].code;
+		injectedHTML += '<li>'+couponName+': <h2>'+couponCode+'</h2></li>';
+	}
+
+	injectedHTML += '</ul>'
+
+	setMessage(injectedHTML);
+	showMessage();
+}
 
 
 // =============================
@@ -213,3 +345,15 @@ function addCommas(nStr) {
 	return x1 + x2;
 }
 
+
+showMessage = function() {
+	$("#message").fadeIn("fast");
+}
+
+hideMessage = function() {
+	$("#message").hide();
+}
+
+setMessage = function(message) {
+	$("#message").html(message);
+}

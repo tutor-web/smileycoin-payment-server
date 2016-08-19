@@ -6,39 +6,43 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;">
       <script type="text/javascript" src="/static/jquery.min.js"></script>
       <script type="text/javascript" src="/static/qrcode.js"></script>
+      <script type="text/javascript" src="/static/footer.js"></script>
       <script type="text/javascript" src="/static/product.js"></script>
       <script type="text/javascript" src="/static/dropdown.js"></script>
       <link rel="stylesheet" type="text/css" href="/static/style.css">
+      <link rel="stylesheet" type="text/css" href="/static/paymentStyle.css">
       <link rel="stylesheet" type="text/css" href="/static/dropdownstyle.css">
       <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
    </head>
    <body>
       <header>
 	 <nav>
-		 <div class="dropdown">
-		    <div class="dropbtn" id="testId">Kaupa afsláttarmiða</div>
-		    <div id="firstDropdown" class="dropdown-content flexNavBtns">
-		      <a href="index.html">Flugfélag Íslands</a>
-		    </div>
-		 </div>
-       <div class="dropdown">
-               <div class="dropbtn">Sækja veski</div>
-               <div id="secondDropdown" class="dropdown-content flexNavBtns">
-                  <a href="https://play.google.com/store/apps/details?id=hashengineering.smileycoin.wallet&hl=en">Android</a>
-                  <a href="https://itunes.apple.com/us/app/smileywallet/id1126330210?mt=8">iOS</a>
-                  <a href="https://tutor-web.info/smileycoin/download/smileycoin-qt.exe">Windows</a>
-                  <a href="https://tutor-web.info/smileycoin/download/smly-on-linux">Linux</a>
-                  <a href="index.html">Mac</a>
-               </div>
-         </div>
+      <div class="dropdowns">
+   		 <div class="dropdown">
+   		    <div class="dropbtn" id="testId">Kaupa afsláttarmiða</div>
+   		    <div id="firstDropdown" class="dropdown-content flexNavBtns">
+   		      <a href="product.html">Flugfélag Íslands</a>
+   		    </div>
+   		 </div>
+          <div class="dropdown">
+                  <div class="dropbtn">Sækja veski</div>
+                  <div id="secondDropdown" class="dropdown-content flexNavBtns">
+                     <a href="https://play.google.com/store/apps/details?id=hashengineering.smileycoin.wallet&hl=en">Android</a>
+                     <a href="https://itunes.apple.com/us/app/smileywallet/id1126330210?mt=8">iOS</a>
+                     <a href="https://tutor-web.info/smileycoin/download/smileycoin-qt.exe">Windows</a>
+                     <a href="https://tutor-web.info/smileycoin/download/smly-on-linux">Linux</a>
+                     <a href="index.html">Mac</a>
+                  </div>
+            </div>
+      </div>
       <div class="menuText">
-            <h2>Smiley Vefverslun</h2>
+            <a href="index.html"><h2>Smiley Vefverslun</h2></a>
       </div>
 	 </nav>
       </header>
       <div class="container">
          <main class="smallScreenFlex columnFlex">
-            <form class="smallScreenFlex columnFlex" id="cartForm" action = "javascript:submitPurchaseRequest();">
+            <form class="smallScreenFlex columnFlex activePayment" id="cartForm" action = "javascript:submitPurchaseRequest();">
                <ul class="columnFlex">
                <li class="largeLiBox inlineFlex">
                   <div class="columnFlex" id="productDescr">
@@ -46,45 +50,45 @@
                      <span>
                         <p class="leftFlex"><span id="prodPrice">1000</span></p>
                      </span>
-                     <input type="hidden" name="prodID" value="1"/>
                   </div>
                   <input class="smallLiBox" name="noItems" id="noItemsInput" type="number" min="1" max="10" value="1"/>
+                  <div class="smallLiBox" id="noItemsBox"/></div>  
                </li>
-               <li class="leftFlex" style="border-bottom: 1px solid grey">
+               <li class="leftFlex" id="upperLi" style="border-bottom: 1px solid grey">
                   <h1 id="priceLabel">Verð:</h1>
                </li>
-               <li class="rightFlex">
+               <li class="rightFlex" id="lowerLi">
                   <h1 id="totPriceLabel">
                      <span id="totPrice"></span>
                      <input name="totPrice" id="totPriceInput" type="hidden" type="number"/></h1>
                </li>
                <li class="columnFlex">
-                     <input type="submit" id="fundBtn" value="Kaupa gjafabréf hjá Flugfélagi Íslands" name="submit" alt="Buy a Gift Certificate from Flugfélag Íslands"/> 
+                     <input type="hidden" name="prodID" value="1"/>
+                     <input type="submit" id="fundBtn" class="styledBtn" value="Halda áfram í greiðslu" name="submit" alt="Buy a Gift Certificate from Flugfélag Íslands"/> 
                </li>
                </ul>
             </form>
             <!-- SMILEYCOIN ADDITION -->
             <div class="paymentInterface">
-               <p id="smileyamount" class="smlyInformation" style="display:none" > Upphæð: <span id="smlyAmount"></span> SMLY </p>
                <div class="rowFlexContainer smlyInformation" id="paySMLY">
                <div class="colFlexContainer largeFlexItem">
-               <input type="button" id="payWithSMLY"  class="smlyInformation smallFlexItem" type="button" style="display:none" onclick="location.href='smileycoin:BGs1L33mgDz8mUAE5h3bgmuo7s9r5Et8ne?amount=500000.0&label=airfare';" value="Greiða með SMLY"/>
-               <input type="button" id="verifyPayment" class="smlyInformation smallFlexItem verify" value="Staðfesta greiðslu"/>
+               <input type="button" id="payWithSMLY"  class="smlyInformation smallFlexItem styledBtn" type="button" onclick="location.href='smileycoin:BGs1L33mgDz8mUAE5h3bgmuo7s9r5Et8ne?amount=500000.0&label=airfare';" value="Greiða með SMLY"/>
+               <input type="button" id="verifyPayment" class="smlyInformation smallFlexItem verify styledBtn" value="Staðfesta greiðslu"/>
                </div>
-                     <div id="qrcode" class="smlyInformation largeFlexItem" style="display:none"></div>
+                     <div id="qrcode" class="smlyInformation largeFlexItem"></div>
                </div>  
                <script type="text/javascript">
                   new QRCode(document.getElementById("qrcode"), "smileycoin:BGs1L33mgDz8mUAE5h3bgmuo7s9r5Et8ne?amount=500000.0&label=airfare");
                </script>
-               <div id="verifyBox" class="smlyInformation"> <span id="verifyText">Greiðsla óstaðfest</span> </div>  
-               <p><span id="message" style="display:none"></span></p>            
+               <div id="verifyBox" class="smlyInformation"> <span id="verifyText">Greiðsla óstaðfest</span> </div>            
                <!-- /SMILEYCOIN ADDITION -->
             </div>
+            <p><span id="message"></span></p>  
          </main>
          
       </div>
-      <footer>
-         <p>Eitthvað um vefsöluna</p>
+      <footer id="footer">
+         <p>Education in a Suitcase 2016 - educationinasuitcase@gmail.com</p>
       </footer>
    </body>
 </html>

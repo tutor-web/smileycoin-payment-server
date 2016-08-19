@@ -6,6 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;">
       <script type="text/javascript" src="/static/jquery.min.js"></script>
       <script type="text/javascript" src="/static/dropdown.js"></script>
+      <script type="text/javascript" src="/static/footer.js"></script>
       <link rel="stylesheet" type="text/css" href="/static/style.css">
       <link rel="stylesheet" type="text/css" href="/static/dropdownstyle.css">
       <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -13,24 +14,26 @@
    <body>
       <header>
 	 <nav>
-		 <div class="dropdown">
-		    <div class="dropbtn" id="testId">Kaupa afsláttarmiða</div>
-		    <div id="firstDropdown" class="dropdown-content flexNavBtns">
-		      <a href="product.html">Flugfélag Íslands</a>
-		    </div>
-		 </div>
-       <div class="dropdown">
-               <div class="dropbtn">Sækja veski</div>
-               <div id="secondDropdown" class="dropdown-content flexNavBtns">
-                  <a href="https://play.google.com/store/apps/details?id=hashengineering.smileycoin.wallet&hl=en">Android</a>
-                  <a href="https://itunes.apple.com/us/app/smileywallet/id1126330210?mt=8">iOS</a>
-                  <a href="https://tutor-web.info/smileycoin/download/smileycoin-qt.exe">Windows</a>
-                  <a href="https://tutor-web.info/smileycoin/download/smly-on-linux">Linux</a>
-                  <a href="index.html">Mac</a>
-               </div>
-         </div>
+		 <div class="dropdowns">
+          <div class="dropdown">
+             <div class="dropbtn" id="testId">Kaupa afsláttarmiða</div>
+             <div id="firstDropdown" class="dropdown-content flexNavBtns">
+               <a href="product.html">Flugfélag Íslands</a>
+             </div>
+          </div>
+          <div class="dropdown">
+                  <div class="dropbtn">Sækja veski</div>
+                  <div id="secondDropdown" class="dropdown-content flexNavBtns">
+                     <a href="https://play.google.com/store/apps/details?id=hashengineering.smileycoin.wallet&hl=en">Android</a>
+                     <a href="https://itunes.apple.com/us/app/smileywallet/id1126330210?mt=8">iOS</a>
+                     <a href="https://tutor-web.info/smileycoin/download/smileycoin-qt.exe">Windows</a>
+                     <a href="https://tutor-web.info/smileycoin/download/smly-on-linux">Linux</a>
+                     <a href="index.html">Mac</a>
+                  </div>
+            </div>
+      </div>
       <div class="menuText">
-            <h2 >Smiley Vefverslun</h2>
+            <a href="index.html"><h2>Smiley Vefverslun</h2></a>
       </div>
 	 </nav>
       </header>
@@ -43,7 +46,7 @@
                   <li class="leftFlex emptySpace">
                   </li>
                   <li class="columnFlex">
-                     <input type="button" id="fundBtn" value="Kaupa gjafabréf hjá Flugfélagi Íslands" name="submit" alt="Buy a Gift Certificate from Flugfélag Íslands"/> 
+                     <input type="button" id="fundBtn" class="styledBtn" value="Kaupa gjafabréf hjá Flugfélagi Íslands" name="submit" alt="Buy a Gift Certificate from Flugfélag Íslands" onclick="window.location='product.html';"/> 
                   </li>
                   <li class="leftFlex"><p>Ertu að heyra um SMLY í fyrsta skipti? Nánari upplýsingar má nálgast <a href="http://tutor-web.info/smileycoin">hér.</a></p></li>
                </ul>
@@ -51,8 +54,8 @@
          </main>
          
       </div>
-      <footer>
-         <p>Eitthvað um vefsöluna</p>
+      <footer id="footer">
+         <p>Education in a Suitcase 2016 - educationinasuitcase@gmail.com</p>
       </footer>
    </body>
 </html>

@@ -28,18 +28,18 @@ header {
   -moz-box-shadow:    0px 2px 3px 1px #656565;
   -webkit-box-shadow: 0px 2px 3px 1px #656565;
   box-shadow:         0px 2px 3px 1px #656565;
-  background-color: #fffffa;
+  background-color: #1a1a1a;
   position: relative;
   z-index: 5; /*highest order*/
 }
 
   header nav {
     display: flex; /*Not sure we want nav? change to flex*/
-    background-color: #1a1a1a;
+    width: 70%;
     margin-left: auto;
     margin-right: auto;
     align-items: stretch;
-    justify-content: center;
+    justify-content: space-between;
     flex-flow: row wrap;
     position: relative;
     z-index: 4;
@@ -134,15 +134,6 @@ header {
        width: 85%;
     }
 
-    #priceLabel {
-      margin-top: 60px;
-      font-size: 3em;
-    }
-
-    #totPriceLabel {
-      margin-bottom: 60px;
-      font-size: 3em;
-    }
 
     main form li {
       width: 100%;
@@ -186,13 +177,11 @@ header {
     main form .largeLiBox {
        position: relative;
        width: 100%;
-       height: 100px;
        border: 1px solid #ccc;
        border-radius: 5px;
        background-color: #f4f4f4;
        text-align: center;
        text-shadow: 2px 2px #ccc;
-       font-size: 3.5em;
        margin-top: 10px;
        margin-bottom: 10px;
     }
@@ -208,6 +197,7 @@ header {
 
     main form #productDescr {
       height: 100%;
+      max-width: 80%;
     }
 
     main form .smallLiBox {
@@ -223,7 +213,8 @@ header {
     }
 
     main .paymentInterface {
-      visibility: hidden;
+      display: none;
+      width: 85%;
     }
 
     .inlineFlex {
@@ -278,7 +269,7 @@ header {
       color: #333;
     }
 
-    #fundBtn {
+    .styledBtn {
       width: 100%;
       font-weight: 600;
       height: 90px;
@@ -292,14 +283,88 @@ header {
       box-shadow:         inset -2px -2px 1px 1px #0d0d0d;
     }
 
-    #fundBtn:active {
+    .styledBtn:active {
         background-color:#333333;
         -moz-box-shadow:    inset -2px -2px 1px 1px #4d4d4d;
         -webkit-box-shadow: inset -2px -2px 1px 1px #4d4d4d;
         box-shadow:         inset -2px -2px 1px 1px #4d4d4d;
     }
 
+    .disabled {
+        background-color:#333333;
+        -moz-box-shadow:    inset -2px -2px 1px 1px #4d4d4d;
+        -webkit-box-shadow: inset -2px -2px 1px 1px #4d4d4d;
+        box-shadow:         inset -2px -2px 1px 1px #4d4d4d;
+    }
 
+.activePayment {
+
+}
+    .activePayment .productName{
+      font-size: 1.5em;
+    }
+
+    .activePayment #prodPrice{
+      font-size: 1.8em;
+    }
+
+    .activePayment #upperLi {
+      margin-top: 60px;
+      font-size: 1.5em;
+    }
+
+    .activePayment #lowerLi {
+      margin-bottom: 60px;
+      font-size: 1.5em;
+    }
+
+    .activePayment #noItemsInput{
+      display: block;
+      height: 90%;
+      font-size: 3.5em;
+    }
+    .activePayment #noItemsBox{
+      display: none;
+    }
+
+    .activePayment #fundBtn {
+      display: block;
+    }
+
+.fixedPayment {
+
+}
+    .fixedPayment .productName{
+      font-size: 1.20em;
+    }
+
+    .fixedPayment #prodPrice {
+      font-size: 1.20em;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    
+    .fixedPayment #upperLi {
+      font-size: 0.65em;
+    }
+
+    .fixedPayment #lowerLi {
+      font-size: 0.65em;
+    }
+
+
+    .fixedPayment #noItemsInput{
+      display: none;
+    }
+
+    .fixedPayment #noItemsBox{
+      font-size: 1.45em;
+      display: block;
+    }
+
+    .fixedPayment #fundBtn {
+      display: none;
+    }
 
 
   .container aside {
@@ -330,11 +395,10 @@ header {
 
 footer {
   width: 100%;
-  position: absolute;
+  /*position: absolute;
   bottom: 0;
-  z-index: 6;
+  z-index: 6;*/
   background-color: #1a1a1a;
-  border-top: 1px solid #fffffa;
   text-align: center;
   line-height: 1.7;
   display: flex;
