@@ -35,6 +35,7 @@ $(function() {
 
 });
 
+
 // Grabs the data from the form fields, updates the UI accordingly
 // and sets the price of the Dalpay form as the number from the number field.
 function updateAmounts() {

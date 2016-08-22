@@ -43,7 +43,7 @@ def product(request):
  
 def freeReserved():
     now = datetime.now()
-    tenMinutesAgo = now - timedelta(minutes=5)
+    tenMinutesAgo = now - timedelta(minutes=10)
     Products.objects.filter(reserved=True, timestamp__lt=tenMinutesAgo).update(reserved=False) # Update all reserved from 10 minutes ago
 
 # Create your views here.
@@ -235,11 +235,25 @@ def getProducts(cartJsonString):
     jobj = json.loads(cartJsonString)
     for key in jobj:
         nOfProd = jobj[key]["nItems"]
+
         # We need to get nOfProd coupons of type 'product'
         for i in range(0,int(nOfProd)):
             prodID = jobj[key]["product"]
-            product = Products.objects.filter(prodId = prodID, reserved=True)[0].prodName
-            code = Products.objects.filter(prodId = prodID, reserved=True)[0].couponCode
+            reservedItems = Products.objects.filter(prodId = prodID, reserved=True)
+            
+            # If the user made it to this page but session expired even though they already 
+            # paid the amount (this should only happen if user takes more than 10 minutes to pay)
+            if(reservedItems.count() <= 0): 
+                if(isInStock(prodID, 1)):
+                    reserveItems(prodID, 1)
+                    reservedItems = Products.objects.filter(prodId = prodID, reserved=True)
+                else:    
+                    smallJson = '"'+str(i)+'": {"product": "Product Out of Stock", "code": "Please Contact Education in a Suitcase"}'
+                    codeList.append(smallJson)
+                    break;
+
+            product = reservedItems[0].prodName
+            code = reservedItems[0].couponCode
             smallJson = '"'+str(i)+'": {"product": "'+product+'", "code": "'+code+'"}'
             codeList.append(smallJson)
             Products.objects.filter(couponCode = code).delete()
