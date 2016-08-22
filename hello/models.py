@@ -8,6 +8,7 @@ class Products(models.Model):
 	amount = models.IntegerField(default=0)
 	couponCode = models.CharField(max_length=60, default="0000000")
 	reserved = models.BooleanField(default=False)
+	timestamp = models.DateTimeField('date modified', auto_now_add=True)
 
 # A Payment request is created when the user requests to pay for
 # his products.

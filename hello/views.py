@@ -3,6 +3,7 @@ from django.http import HttpResponse
 
 from .models import PaymentRequest
 from .models import Products
+from .models import Transaction
 
 import requests
 import subprocess
@@ -10,6 +11,7 @@ import time
 import urlparse
 import json
 from smileycoin import Smileycoin
+from datetime import datetime, timedelta
 from django.middleware import csrf
 
 # Create your views here.
@@ -20,11 +22,29 @@ def index(request):
 
 # Create your views here.
 def product(request):
+    prodID = request.GET.get('prodID', '1')
+
+    # When someone enters our page, we make sure to free all products
+    # that were reserved more than 10 minutes ago.
+    freeReserved()
+
+    # HAVE TO MAKE SURE ITS NOT OUT OF STOCK!!!
+    matchingProducts = Products.objects.filter(prodId=prodID, reserved=False)
+    productStock = matchingProducts.count()
+    if(productStock <= 0): return render(request, 'outOfStock.html')
+
+    productName = matchingProducts[0].prodName
+    productPrice = matchingProducts[0].amount
+
     # Greeting.objects.all().delete()
     # PaymentRequest.objects.all().delete()
     csrf.get_token(request)
-    return render(request, 'product.html')
+    return render(request, 'product.html', {'productName': productName, 'productPrice': productPrice, 'productStock': productStock})
  
+def freeReserved():
+    now = datetime.now()
+    tenMinutesAgo = now - timedelta(minutes=5)
+    Products.objects.filter(reserved=True, timestamp__lt=tenMinutesAgo).update(reserved=False) # Update all reserved from 10 minutes ago
 
 # Create your views here.
 def checkout(request):
@@ -51,13 +71,13 @@ def checkout(request):
     # Check if what we are buying is in stock:
     inStock = isInStock(prodID, nItems)
     if(not inStock):
-        message = message + "Error: Item out of stock"
+        message = message + "Error: Product out of stock. Please try again later."
     else:
         # AMOUNT
         # Calculate the amount
         correctAmount = checkAmount(prodID, nItems, totPrice)
         if(not correctAmount): 
-            message = message + "Error: Amount was incorrectly calculated"
+            message = message + "Error: We received a wrong amount for this product."
     
     # ADDRESS
     # Get the address we need to pay to
@@ -122,7 +142,7 @@ def reserveItems(prodID, nItems):
 
     if prodID is not None:
         for i in range(0, nItems):
-            product = Products.objects.filter(prodId=prodID, reserved=False, id=ids[i]).update(reserved=True)
+            product = Products.objects.filter(prodId=prodID, reserved=False, id=ids[i]).update(reserved=True, timestamp=datetime.now())
 
 def freeItems(prodID, nItems):
     ids = Products.objects.filter(prodId=prodID).values_list('id', flat=True)
@@ -136,12 +156,8 @@ def freeItems(prodID, nItems):
 
 def db(request):
 
-    greeting = Greeting()
-    greeting.save()
-    greetings = Greeting.objects.all()
-
     paymentReqs = PaymentRequest.objects.all()
-    return render(request, 'db.html', {'greetings': greetings, 'paymentReqs': paymentReqs})
+    return render(request, 'db.html', {'paymentReqs': paymentReqs})
 
 def postTX(request):
     txId = request.body
@@ -158,8 +174,16 @@ def postTX(request):
     if payment is not None:
          print PaymentRequest.objects.filter(address=payment['address']).update(amount = float(currAmount)+float(payment['amount']))
          print payment['confirmations']
+         # Also update Transaction table, add new entry for the txID if necessary, or just update
+         # confirmations on the existing one:
+         matchingTransactions = Transaction.objects.filter(txID = txId)
+         if(matchingTransactions.count() <= 0):
+            transaction = Transaction(txID = txId, confirmations = payment['confirmations'])
+            transaction.save()
+         else:
+            transaction = Transaction.objects.filter(txID = txId).update(confirmations = payment['confirmations'])
     
-    return HttpResponse("TRANSACTION POSTED (unless some error occurred...) with address %s, amount %s and confirmations %s", payment['address'], payment['amount'], payment['confirmations'])   
+    return HttpResponse("TRANSACTION POSTED with address %s, amount %s and confirmations %s", payment['address'], payment['amount'], payment['confirmations'])   
 
 
 def getToken(request):
@@ -188,7 +212,7 @@ def verifyPayment(request):
 
     if(fullyPaid): 
         prodsJSON = getProducts(payment.cartJSON) # This is a json of the coupons that we will add in the other json
-        verificationJSON = '{"status": "PAID", "address": "'+str(payment.address)+'", "amount": "'+str(payment.amount)+'", "coupon": '+str(prodsJSON)+'}' 
+        verificationJSON = '{"status": "PAID", "address": "'+str(payment.address)+'", "amount": "'+str(payment.amount)+'", "coupon": '+prodsJSON+'}' 
         PaymentRequest.objects.filter(sessionToken=csrfToken, address=addressFromUser).update(status="COMPLETE")
     else:
         verificationJSON = '{"status": "UNPAID", "address": "'+str(payment.address)+'", "amount": "'+str(payment.amount)+'"}'
@@ -213,11 +237,10 @@ def getProducts(cartJsonString):
         nOfProd = jobj[key]["nItems"]
         # We need to get nOfProd coupons of type 'product'
         for i in range(0,int(nOfProd)):
-            product = jobj[key]["product"]
-            code = Products.objects.filter(prodId = product, reserved=True)[0].couponCode
+            prodID = jobj[key]["product"]
+            product = Products.objects.filter(prodId = prodID, reserved=True)[0].prodName
+            code = Products.objects.filter(prodId = prodID, reserved=True)[0].couponCode
             smallJson = '"'+str(i)+'": {"product": "'+product+'", "code": "'+code+'"}'
-            if(i < (int(nOfProd) - 1)): 
-                smallJson += ", "
             codeList.append(smallJson)
             Products.objects.filter(couponCode = code).delete()
 
@@ -227,4 +250,4 @@ def getProducts(cartJsonString):
         prodJson += codeList[i]
         if(i < len(codeList)-1): prodJson += ', '
 
-    return prodJson;
+    return prodJson+'}';

@@ -39,8 +39,9 @@ $(function() {
 // and sets the price of the Dalpay form as the number from the number field.
 function updateAmounts() {
 	console.log("Calling Update() new");
-	$("#prodPrice").html(parseAmountString(price.toString(), "SMLY")["stringVal"]);
-	var totalPrice = parseAmountString(($("#noItemsInput").val()*price).toString(), "SMLY");
+	var productPrice = $("#prodPriceUnformatted").html().toString();
+	$("#prodPrice").html(parseAmountString(productPrice, "SMLY")["stringVal"]);
+	var totalPrice = parseAmountString(($("#noItemsInput").val()*productPrice).toString(), "SMLY");
 	$("#totPrice").html(totalPrice["stringVal"]);
 	//$("#totPriceInput").html(totalPrice["amountVal"]);
 	$("input[name=totPrice]").val(totalPrice["amountVal"]);
@@ -131,14 +132,12 @@ function fixFooter() {
                 heightDifference = $("body").height() - $('.container').height()-$("header").height()-$("footer").height();
        
                if ( ($(document.body).height()+footerHeight) < $(window).height()) {
-                   console.log("IS THIS HAPPENING?");
                    $footer.css({
                         position: "absolute"
                    }).animate({
                         top: footerTop
                    })
                } else {
-                   console.log("OR THIS? Height difference "+heightDifference);
                    $footer.css({
                         position: "relative",
                         top: heightDifference
@@ -242,7 +241,7 @@ var verifyPayment = function(successCallback, errorCallback) {
 			successCallback(result);
 		},
 		error: function(xhr,ajaxOptions, thrownError){
-			errorCallback(result);
+			errorCallback();
 			console.log(xhr);
 			console.log(thrownError);
 		}
@@ -251,6 +250,7 @@ var verifyPayment = function(successCallback, errorCallback) {
 
 
 onGetVerifySuccess = function(result) {
+	console.log("Were in ur success");
 	var paymentStatus = extractFromJson(result, "status");
 	var paidAmount = extractFromJson(result, 'amount');
 	if(paymentStatus === "PAID") {
@@ -267,21 +267,25 @@ onGetVerifySuccess = function(result) {
 	}
 }
 
-onGetVerifyFailure = function(result) {
-	setMessage(message);
+onGetVerifyFailure = function() {
+	setMessage("Eitthvað fór úrskeiðis. Vinsamlegast hafið samband við educationinasuitcase@gmail.com vegna miðakaupanna.");
 	showMessage();
 	$("#verifyPayment").prop("disabled", false);
 	$("#verifyPayment").removeClass("disabled");
 }
 
 deliverProduct = function(result) {
-	var injectedHTML = 'Greiðsla samþykkt. <ul class="product">';
+	console.log("Delivering product, finally");
+	var injectedHTML = '<ul class="product">';
 
 	couponJSON = extractFromJson(result, "coupon");
+	console.log("This is the json coupon we've extracted ");
+	console.log(couponJSON);
 	for(var key in couponJSON) {
+		console.log("Were in the couponJSON");
 		couponName = couponJSON[key].product;
 		couponCode = couponJSON[key].code;
-		injectedHTML += '<li>'+couponName+': <h2>'+couponCode+'</h2></li>';
+		injectedHTML += '<li><h2>'+couponName+': '+couponCode+'</h2></li>';
 	}
 
 	injectedHTML += '</ul>'
@@ -345,15 +349,3 @@ function addCommas(nStr) {
 	return x1 + x2;
 }
 
-
-showMessage = function() {
-	$("#message").fadeIn("fast");
-}
-
-hideMessage = function() {
-	$("#message").hide();
-}
-
-setMessage = function(message) {
-	$("#message").html(message);
-}

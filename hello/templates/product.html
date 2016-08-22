@@ -7,6 +7,7 @@
       <script type="text/javascript" src="/static/jquery.min.js"></script>
       <script type="text/javascript" src="/static/qrcode.js"></script>
       <script type="text/javascript" src="/static/footer.js"></script>
+      <script type="text/javascript" src="/static/uiControl.js"></script>
       <script type="text/javascript" src="/static/product.js"></script>
       <script type="text/javascript" src="/static/dropdown.js"></script>
       <link rel="stylesheet" type="text/css" href="/static/style.css">
@@ -19,9 +20,9 @@
 	 <nav>
       <div class="dropdowns">
    		 <div class="dropdown">
-   		    <div class="dropbtn" id="testId">Kaupa afsláttarmiða</div>
+   		    <div class="dropbtn" id="testId">Kaupa gjafamiða</div>
    		    <div id="firstDropdown" class="dropdown-content flexNavBtns">
-   		      <a href="product.html">Flugfélag Íslands</a>
+   		      <a href="product.html?prodID=1">Flugfélag Íslands</a>
    		    </div>
    		 </div>
           <div class="dropdown">
@@ -31,7 +32,7 @@
                      <a href="https://itunes.apple.com/us/app/smileywallet/id1126330210?mt=8">iOS</a>
                      <a href="https://tutor-web.info/smileycoin/download/smileycoin-qt.exe">Windows</a>
                      <a href="https://tutor-web.info/smileycoin/download/smly-on-linux">Linux</a>
-                     <a href="index.html">Mac</a>
+                     <a href="https://tutor-web.info/smileycoin/download/macveski.zip/@@download/file/Smileycoin-Qt-OSX-0871.zip">OS X</a>
                   </div>
             </div>
       </div>
@@ -45,14 +46,19 @@
             <form class="smallScreenFlex columnFlex activePayment" id="cartForm" action = "javascript:submitPurchaseRequest();">
                <ul class="columnFlex">
                <li class="largeLiBox inlineFlex">
+                  {% block content %}
                   <div class="columnFlex" id="productDescr">
-                     <span class="productName">Afsláttarmiði Flugfélags Íslands að verðmæti 5000kr</span>
+                     <span class="productName">{{ productName }}</span>
                      <span>
-                        <p class="leftFlex"><span id="prodPrice">1000</span></p>
+                        <p class="leftFlex">
+                        <span id="prodPriceUnformatted" style="display: none;">{{ productPrice }}</span>
+                        <span id="prodPrice">{{ productPrice }}</span>
+                        </p>
                      </span>
                   </div>
-                  <input class="smallLiBox" name="noItems" id="noItemsInput" type="number" min="1" max="10" value="1"/>
+                  <input class="smallLiBox" name="noItems" id="noItemsInput" type="number" min="1" max="{{ productStock }}" value="1"/>
                   <div class="smallLiBox" id="noItemsBox"/></div>  
+                  {% endblock %}
                </li>
                <li class="leftFlex" id="upperLi" style="border-bottom: 1px solid grey">
                   <h1 id="priceLabel">Verð:</h1>

@@ -1,0 +1,84 @@
+body  	{background: #EDEDED;}
+
+
+label   {
+	font-weight:bold;
+	font-family:arial;
+	color:#525250;
+	font-size: 12px;
+	}
+
+
+
+#container {
+    max-width: 1200px;
+    min-width: 320px;
+    width: 100%;
+    margin-left: 10px;
+}
+
+.rowFlexContainer {
+	width: 100%;
+	max-width: 560px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-flow: row wrap;
+}
+
+.colFlexContainer {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-flow: column wrap;
+}
+
+.largeFlexItem {
+	justify-content: space-between;
+	margin-top: 20px;
+	width: 100%;
+	max-width: 256px;
+	height: 256px;
+	overflow: hidden;	
+}
+
+.smallFlexItem {
+	justify-content: space-between;
+	width: 100%;
+	height: 110px;
+	overflow: hidden;
+}
+
+#verifyBox {
+	border: 2px solid #ec8c47;
+	border-radius: 12px;
+	font-weight: bold;
+	color: #fffffa;
+	margin-top: 30px;
+	text-align: center;
+	line-height: 100px;
+	max-width: 558px; /*2px smaller because of border*/
+	width: 100%;
+	background-color: #f2511d;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+#paySMLY {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* For mobile */
+/*@media screen and (max-width: 600px) {
+  .largeFlexItem {
+	max-width: 1000px; // no max-width
+  }
+
+  #qrcode {
+      display: none !important;
+  }
+}*/
+
+
