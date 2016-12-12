@@ -18,7 +18,9 @@
           <div class="dropdown">
              <div class="dropbtn" id="testId">Kaupa gjafakóða</div>
              <div id="firstDropdown" class="dropdown-content flexNavBtns">
-               <a href="product.html?prodID=1">Flugfélag Íslands afsláttarkóðar</a>
+               {% for p in availableProducts %}
+                 <a href="product.html?prodID={{p.prodId}}">{{p.prodName}}</a>
+               {% endfor %}
              </div>
           </div>
           <div class="dropdown">

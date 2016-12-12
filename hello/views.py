@@ -14,11 +14,19 @@ from smileycoin import Smileycoin
 from datetime import datetime, timedelta
 from django.middleware import csrf
 
+def _getAvailableProducts():
+    '''Fetch all possible products for the dropdown menu'''
+    return (Products.objects
+        .filter(reserved=False)
+        .values('prodId', 'prodName')
+        .distinct()
+        .order_by('prodId'))
+
 # Create your views here.
 def index(request):
     # Greeting.objects.all().delete()
     # PaymentRequest.objects.all().delete()
-    return render(request, 'index.html')
+    return render(request, 'index.html', { 'availableProducts': _getAvailableProducts() })
 
 # Create your views here.
 def product(request):
@@ -39,7 +47,7 @@ def product(request):
     # Greeting.objects.all().delete()
     # PaymentRequest.objects.all().delete()
     csrf.get_token(request)
-    return render(request, 'product.html', {'productName': productName, 'productPrice': productPrice, 'productStock': productStock})
+    return render(request, 'product.html', { 'availableProducts': _getAvailableProducts(), 'prodID': prodID, 'productName': productName, 'productPrice': productPrice, 'productStock': productStock})
  
 def freeReserved():
     now = datetime.now()
