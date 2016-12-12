@@ -1,3 +1,8 @@
+/* Dropdowns sit above the titles that follow */
+.dropdowns {
+    z-index: 1;
+}
+
  /* Dropdown Button */
 .dropbtn {
     background-color: #4CAF50;
