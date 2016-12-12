@@ -69,8 +69,8 @@
                      <input name="totPrice" id="totPriceInput" type="hidden" type="number"/></h1>
                </li>
                <li class="columnFlex">
-                     <input type="hidden" name="prodID" value="1"/>
-                     <input type="submit" id="fundBtn" class="styledBtn" value="Halda áfram í greiðslu" name="submit" alt="Buy a Gift Certificate from Flugfélag Íslands"/> 
+                     <input type="hidden" name="prodID" value="{{ prodID }}"/>
+                     <input type="submit" id="fundBtn" class="styledBtn" value="Halda áfram í greiðslu" name="submit" alt="Buy a Gift Certificate"/> 
                </li>
                </ul>
             </form>
@@ -78,13 +78,13 @@
             <div class="paymentInterface">
                <div class="rowFlexContainer smlyInformation" id="paySMLY">
                <div class="colFlexContainer largeFlexItem">
-               <input type="button" id="payWithSMLY"  class="smlyInformation smallFlexItem styledBtn" type="button" onclick="location.href='smileycoin:BGs1L33mgDz8mUAE5h3bgmuo7s9r5Et8ne?amount=500000.0&label=airfare';" value="Greiða með SMLY"/>
+               <input type="button" id="payWithSMLY"  class="smlyInformation smallFlexItem styledBtn" type="button" onclick="location.href='smileycoin:XXX?amount=0.0&label=completed_by_js';" value="Greiða með SMLY"/>
                <input type="button" id="verifyPayment" class="smlyInformation smallFlexItem verify styledBtn" value="Staðfesta greiðslu"/>
                </div>
                      <div id="qrcode" class="smlyInformation largeFlexItem"></div>
                </div>  
                <script type="text/javascript">
-                  new QRCode(document.getElementById("qrcode"), "smileycoin:BGs1L33mgDz8mUAE5h3bgmuo7s9r5Et8ne?amount=500000.0&label=airfare");
+                  new QRCode(document.getElementById("qrcode"), "smileycoin:XXX?amount=0.0&label=completed_by_js");
                </script> 
                <div id="verifyBox" class="smlyInformation"> <span id="verifyText">Greiðsla óstaðfest</span> </div>            
                <!-- /SMILEYCOIN ADDITION -->

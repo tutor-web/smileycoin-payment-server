@@ -178,7 +178,11 @@ var extractFromJson = function(result, key) {
 
 // Generates a new url/uri for the given address with sessionInfo.amount smly:
 var makeNewUrl = function() {
-     return  "smileycoin:"+sessionInfo.address+"?amount="+sessionInfo.amount+"&label=airfare";
+    var productName = $(".productName").text() || 'Voucher';
+
+    return "smileycoin:" + sessionInfo.address +
+        "?amount=" + sessionInfo.amount +
+        "&label=" + encodeURIComponent(productName);
 }
 
 
