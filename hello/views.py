@@ -172,6 +172,8 @@ def postTX(request):
     sc = Smileycoin()
     # payment is a json string of the form {"address" : address, "confirmation" : true/false}
     payment = sc.getPaymentById(txId)
+    if not payment:
+        return HttpResponse("Unknown transaction %s" % txId)
  
     # Current amount of this address (in case customer pays in several transactions
     existingRequest = PaymentRequest.objects.get(address=payment['address'])
