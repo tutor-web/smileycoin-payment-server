@@ -35,6 +35,7 @@ changeVerifyBox = function(verified) {
 		document.getElementById("verifyText").innerHTML = "Greiðsla óstaðfest";
 		verified = false;
 	} else {
+		$(".smlyInformation").hide();
 		$("#verifyBox").css("background-color", "#47BD4E");
 		$("#verifyBox").css("border", "2px solid #91ec47");
 		document.getElementById("verifyText").innerHTML = "Greiðsla staðfest";
