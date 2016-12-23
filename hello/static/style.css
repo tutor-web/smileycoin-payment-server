@@ -17,6 +17,7 @@ html {
 body { 
     height: 100%;
     min-height:100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -90,6 +91,33 @@ header {
     margin-left: auto;
     margin-right: auto;
   }
+
+.index_container {
+  max-width: 960px;
+  min-height: 85%;
+  margin: 1em auto;
+}
+.index_container p {
+  margin: 1em 0;
+}
+.sponsors {
+  float: right;
+  margin: 2em -10em 1em 1em;
+}
+.sponsors > * {
+  display: block;
+  margin: 2em 0;
+}
+.sponsors img {
+  width: 240px;
+}
+@media screen and (max-width: 900px) {
+  .sponsors {
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
 
 .container { 
   overflow: auto; /*keep this instead of the height attribute so it expands with content*/
