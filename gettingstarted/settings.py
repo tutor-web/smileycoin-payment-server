@@ -19,6 +19,9 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 with open(os.path.join(BASE_DIR, 'secret-key.txt')) as f:
     SECRET_KEY = f.read().strip()
+with open(os.path.join(BASE_DIR, 'coin-rpc-pass.txt')) as f:
+    COIN_RPC_PASS = f.read().strip()
+
 DEBUG = False
 
 # Application definition

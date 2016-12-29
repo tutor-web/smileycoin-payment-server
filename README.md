@@ -34,6 +34,12 @@ of some kind:
 echo "verysecretkeyguv" > secret-key.txt
 ```
 
+Also add the smileycoin RPC password:
+
+```
+echo "myrpcpassword" > coin-rpc-pass.txt
+```
+
 Run the server with:
 
 ```
