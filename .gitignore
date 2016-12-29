@@ -7,7 +7,7 @@
 
 /secret-key.txt
 /coin-rpc-pass.txt
-/db.sqlite3
+/db/
 
 venv
 *.pyc
