@@ -5,12 +5,13 @@ from .models import PaymentRequest
 from .models import Products
 from .models import Transaction
 
+from . import coin
+
 import requests
 import subprocess
 import time
 import urlparse
 import json
-from smileycoin import Smileycoin
 from datetime import datetime, timedelta
 from django.middleware import csrf
 
@@ -114,17 +115,7 @@ def checkout(request):
 # =============================
 
 def generateAddress(request):
-    sc = Smileycoin()
-    address = sc.getAddress()
-    message = ""
-
-    if( address==0 ):
-        message = "Error"
-    else:
-        message = "Success"
-
-    return address
-
+    return coin.getAddress()
 
 # Later on, when the site will be adapted to hold multiple
 # products, this needs to be written so that it can accept an array
@@ -169,11 +160,16 @@ def db(request):
 
 def postTX(request):
     txId = request.body
-    sc = Smileycoin()
-    # payment is a json string of the form {"address" : address, "confirmation" : true/false}
-    payment = sc.getPaymentById(txId)
-    if not payment:
+
+    tx = coin.getTransaction(txId)
+    if not tx:
         return HttpResponse("Unknown transaction %s" % txId)
+
+    payment = dict(
+        address=tx['details'][0]['address'],
+        amount=tx['amount'],
+        confirmations=tx['confirmations'],
+    )
  
     # Current amount of this address (in case customer pays in several transactions
     existingRequest = PaymentRequest.objects.get(address=payment['address'])
@@ -193,7 +189,7 @@ def postTX(request):
          else:
             transaction = Transaction.objects.filter(txID = txId).update(confirmations = payment['confirmations'])
     
-    return HttpResponse("TRANSACTION POSTED with address %s, amount %s and confirmations %s", payment['address'], payment['amount'], payment['confirmations'])   
+    return HttpResponse("TRANSACTION POSTED: %s" % payment)
 
 
 def getToken(request):
