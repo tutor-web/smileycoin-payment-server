@@ -17,7 +17,7 @@ id "${TARGETUSER}" 2>/dev/null || adduser --system \
     ${TARGETUSER}
 
 mkdir -p "$(dirname ${TARGETDB})"
-chown -R ${TARGETUSER}:${TARGETGROUP} -p "$(dirname ${TARGETDB})"
+chown -R ${TARGETUSER}:${TARGETGROUP} "$(dirname ${TARGETDB})"
 
 [ -e "${TARGETSECRET}" ] || python -c 'import random; import string; print "".join([random.SystemRandom().choice(string.digits + string.letters + string.punctuation) for i in range(100)])' > "${TARGETSECRET}"
 
