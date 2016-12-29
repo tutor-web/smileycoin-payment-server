@@ -7,6 +7,7 @@
 
 /secret-key.txt
 /coin-rpc-pass.txt
+/debug-mode.txt
 /db/
 
 venv

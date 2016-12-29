@@ -41,6 +41,12 @@ Also add the smileycoin RPC password:
 echo "myrpcpassword" > coin-rpc-pass.txt
 ```
 
+You probably want to enable debug mode:
+
+```
+touch debug-mode.txt
+```
+
 Run the server with:
 
 ```

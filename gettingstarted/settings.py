@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 import os
+import os.path
 import dj_database_url
 
 
@@ -23,7 +24,7 @@ with open(os.path.join(BASE_DIR, 'secret-key.txt')) as f:
 with open(os.path.join(BASE_DIR, 'coin-rpc-pass.txt')) as f:
     COIN_RPC_PASS = f.read().strip()
 
-DEBUG = False
+DEBUG = os.path.isfile(os.path.join(BASE_DIR, 'debug-mode.txt'))
 
 # Application definition
 
