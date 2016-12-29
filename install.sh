@@ -40,3 +40,43 @@ systemctl start smileycoin-payment-server.service
 
 sleep 1
 systemctl status smileycoin-payment-server.service
+
+cat <<EOF > /etc/nginx/sites-available/smileycoin-payment-server
+upstream app_server {
+  server 127.0.0.1:8000;
+}
+
+server {
+  listen 80;
+  server_name smly.is www.smly.is;
+
+  keepalive_timeout 5;
+
+  root ${TARGETHOME}/hello/static/;
+
+  location / {
+    # checks for static file, if not found proxy to app
+    try_files \$uri @proxy_to_app;
+  }
+
+  location @proxy_to_app {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $server_name;
+    # enable this if and only if you use HTTPS
+    # proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header Host $http_host;
+    # we don't want nginx trying to do something clever with
+    # redirects, we set the Host: header above already.
+    proxy_redirect off;
+    proxy_pass http://app_server;
+  }
+
+  error_page 500 502 503 504 /500.html;
+  location = /500.html {
+    root ${TARGETHOME}/hello/static/;
+  }
+}
+EOF
+ln -fs /etc/nginx/sites-available/smileycoin-payment-server /etc/nginx/sites-enabled/smileycoin-payment-server
+nginx -t
+/etc/init.d/nginx reload

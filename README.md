@@ -21,6 +21,9 @@ The ``install.sh`` script will, if run as root:-
 * Create a user to run as
 * Create a systemd unit to run it
 * Start it up
+* Create an NGINX site config file
+* Add it to NGINX config
+* Reload NGINX
 
 ### Development
 
