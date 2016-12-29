@@ -1,44 +1,22 @@
-# python-getting-started
+# Smileycoin Payment server
 
-A barebones Python app, which can easily be deployed to Heroku.
+This is a django app that can sell voucher codes for SMLY
 
-This application supports the [Getting Started with Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python) article - check it out.
+## Installation
 
-## Running Locally
+Make sure you have done ``apt-get install python-dev``.
 
-Make sure you have Python [installed properly](http://install.python-guide.org).  Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/) and [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
-
-```sh
-$ git clone git@github.com:heroku/python-getting-started.git
-$ cd python-getting-started
-
-$ pip install -r requirements.txt
-
-$ createdb python_getting_started
-
-$ python manage.py migrate
-$ python manage.py collectstatic
-
-$ heroku local
+```
+virtualenv .
+./bin/pip install -r requirements.txt
 ```
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+Get a copy of ``db.sqlite3`` if appropriate.
 
-## Deploying to Heroku
+Run the server with:
 
-```sh
-$ heroku create
-$ git push heroku master
-
-$ heroku run python manage.py migrate
-$ heroku open
 ```
-or
+./bin/gunicorn gettingstarted.wsgi --log-file -
+```
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-## Documentation
-
-For more information about using Python on Heroku, see these Dev Center articles:
-
-- [Python on Heroku](https://devcenter.heroku.com/categories/python)
+It should now be listening on port 8000.
