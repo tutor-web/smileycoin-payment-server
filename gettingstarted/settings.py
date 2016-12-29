@@ -15,6 +15,7 @@ import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+DB_DIR = os.path.join(BASE_DIR, 'db')
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 with open(os.path.join(BASE_DIR, 'secret-key.txt')) as f:
@@ -82,7 +83,7 @@ WSGI_APPLICATION = 'gettingstarted.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(DB_DIR, 'db.sqlite3'),
     }
 }
 

@@ -4,7 +4,7 @@ set -ex
 TARGETUSER=""
 TARGETHOME="/srv/smileycoin-payment-server"
 TARGETBIN="${TARGETHOME}/bin/gunicorn"
-TARGETDB="${TARGETHOME}/db.sqlite3"
+TARGETDB="${TARGETHOME}/db/db.sqlite3"
 TARGETSECRET="${TARGETHOME}/secret-key.txt"
 TARGETUSER="smileycoin-payment-server"
 TARGETGROUP="nogroup"
@@ -16,8 +16,8 @@ id "${TARGETUSER}" 2>/dev/null || adduser --system \
     --disabled-password \
     ${TARGETUSER}
 
-[ -e "${TARGETDB}" ] || touch -- "${TARGETDB}"
-chown ${TARGETUSER}:${TARGETGROUP} "${TARGETDB}"
+mkdir -p "$(dirname ${TARGETDB})"
+chown -R ${TARGETUSER}:${TARGETGROUP} -p "$(dirname ${TARGETDB})"
 
 [ -e "${TARGETSECRET}" ] || python -c 'import random; import string; print "".join([random.SystemRandom().choice(string.digits + string.letters + string.punctuation) for i in range(100)])' > "${TARGETSECRET}"
 

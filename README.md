@@ -11,7 +11,8 @@ virtualenv .
 ./bin/pip install -r requirements.txt
 ```
 
-Get a copy of ``db.sqlite3`` if appropriate.
+Get a copy of ``db.sqlite3``, and put it in a ``db`` directory. This should be owned
+by the user which will run uWSGI.
 
 ### Production deployment
 
