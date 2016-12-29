@@ -48,3 +48,19 @@ Run the server with:
 ```
 
 It should now be listening on port 8000.
+
+## Adding items into the database
+
+The ``hello_products`` table contains all available voucher codes for purchase. You can
+add some via. the following:
+
+```
+sqlite3 db/db.sqlite3
+sqlite> INSERT INTO hello_products
+    (prodId, prodName, reserved, amount, couponCode, sellerId, timestamp)
+    VALUES
+    ('0', 'Test purchase', 0, 2, 'ABC-DEF-123', 'FI', '2016-12-29 00:00:00');
+```
+
+Note that ``prodId`` / ``prodName`` should be identical for every matching coupon code,
+rather than being unique for each line in the table.
