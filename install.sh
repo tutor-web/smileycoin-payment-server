@@ -54,17 +54,16 @@ server {
 
   root ${TARGETHOME}/hello/static/;
 
-  location / {
-    # checks for static file, if not found proxy to app
-    try_files \$uri @proxy_to_app;
+  location /static {
+    alias ${TARGETHOME}/hello/static/;
   }
 
-  location @proxy_to_app {
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Host $server_name;
+  location / {
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host \$server_name;
     # enable this if and only if you use HTTPS
     # proxy_set_header X-Forwarded-Proto https;
-    proxy_set_header Host $http_host;
+    proxy_set_header Host \$http_host;
     # we don't want nginx trying to do something clever with
     # redirects, we set the Host: header above already.
     proxy_redirect off;
