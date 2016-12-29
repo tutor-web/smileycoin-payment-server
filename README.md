@@ -13,6 +13,24 @@ virtualenv .
 
 Get a copy of ``db.sqlite3`` if appropriate.
 
+### Production deployment
+
+The ``install.sh`` script will, if run as root:-
+
+* Generate a random secret key
+* Create a user to run as
+* Create a systemd unit to run it
+* Start it up
+
+### Development
+
+If just developing, you don't need to install, however you will still need a secret key
+of some kind:
+
+```
+echo "verysecretkeyguv" > secret-key.txt
+```
+
 Run the server with:
 
 ```
