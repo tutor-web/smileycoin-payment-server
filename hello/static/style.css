@@ -100,6 +100,9 @@ header {
 .index_container p {
   margin: 1em 0;
 }
+.index_container ul {
+  margin: 1em;
+}
 .sponsors {
   float: right;
   margin: 2em -10em 1em 1em;
