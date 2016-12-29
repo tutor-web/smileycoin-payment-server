@@ -12,16 +12,11 @@
 
 html { 
     height:100%;
-    min-height: 870px;
-}
-body { 
-    height: 100%;
-    min-height:100%;
-    overflow-x: hidden;
 }
 
 body {
-  width: 100%;
+  position: relative;
+  min-height: 100%;
   background-color: #fffffa;
 }
 
@@ -95,7 +90,8 @@ header {
 .index_container {
   max-width: 960px;
   min-height: 85%;
-  margin: 1em auto;
+  margin: 1em auto 0 auto;
+  padding-bottom: 3em;
 }
 .index_container p {
   margin: 1em 0;
@@ -425,10 +421,10 @@ header {
 
 
 footer {
-  width: 100%;
-  /*position: absolute;
+  position: absolute;
   bottom: 0;
-  z-index: 6;*/
+  left: 0;
+  right: 0;
   background-color: #1a1a1a;
   text-align: center;
   line-height: 1.7;
