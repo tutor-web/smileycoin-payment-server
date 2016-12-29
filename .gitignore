@@ -4,11 +4,14 @@
 /local/
 /pip-selfcheck.json
 /share/
+
+/secret-key.txt
+/db.sqlite3
+
 venv
 *.pyc
 staticfiles
 .env
-db.sqlite3
 *~
 hello/*~
 gettingstarted/*~
