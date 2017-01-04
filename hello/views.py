@@ -205,7 +205,7 @@ def verifyPayment(request):
     if len(matchingPayments) is not 0:
         payment = matchingPayments[0]
     else:
-        return HttpResponse('{"Error: ": We found no payment matching your query. Please send an e-mail to educationinasuitcase@gmail.com if you paid for your product but didn\'t receive any.')
+        return HttpResponse('{"Error: ": We found no payment matching your query. Please send an e-mail to educationinasuitcase@educationinasuitcase.com if you paid for your product but didn\'t receive any.')
 
     fullyPaid = False
     # Our response should depend on whether or not the payment has been completed successfully:
@@ -226,7 +226,7 @@ def verifyPayment(request):
     if payment is not None:
         return HttpResponse(verificationJSON)
     else:
-        return HttpResponse('{"Error: ": "We couldn\'t verify your payment at this time. Please send an e-mail to educationinasuitcase@gmail.com if the problem persists."}')
+        return HttpResponse('{"Error: ": "We couldn\'t verify your payment at this time. Please send an e-mail to educationinasuitcase@educationinasuitcase.com if the problem persists."}')
 
 
 

@@ -273,7 +273,7 @@ onGetVerifySuccess = function(result) {
 }
 
 onGetVerifyFailure = function() {
-	setMessage("Eitthvað fór úrskeiðis. Vinsamlegast hafið samband við educationinasuitcase@gmail.com vegna miðakaupanna.");
+	setMessage("Eitthvað fór úrskeiðis. Vinsamlegast hafið samband við educationinasuitcase@educationinasuitcase.com vegna miðakaupanna.");
 	showMessage();
 	$("#verifyPayment").prop("disabled", false);
 	$("#verifyPayment").removeClass("disabled");
